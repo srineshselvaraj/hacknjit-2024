@@ -15,7 +15,7 @@ function Header(){
         <div id="gacha" className="d-flex justify-content-around me-3">
           <button id="gachaButton" className="btn btn-danger">Gacha</button>
         </div>
-        */}
+        */} 
     </nav>
   );
 }
@@ -91,42 +91,40 @@ function UploadText(){
 
 function Question() {
   const [input, setInput] = useState('');
-  const handleSend = () => {
-    const data = { input };
-    sendData(data);
-  };
   const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const getQuestions = async() => {
-      try{
-        const response = await fetch('http://localhost:5000/questions');
-        const data = await response.json();
-        setQuestions(data);
-      } catch(error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const [loading, setLoading] = useState(false);
 
-    getQuestions();
-  }, []);
+  const getQuestions = async() => {
+    try{
+      const response = await fetch('http://localhost:5000/questions');
+      const data = await response.json();
+      setQuestions(data);
+    } catch(error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  getQuestions();
 
   return(
     <div className='container'>
       <div className='mt-4'>
         {loading ? (
-          <p>Loading questions...</p>
+          <div className="container">
+            <div className="align-items-center">
+              <p>Loading questions...</p>
+            </div>
+          </div>
         ) : (
           <>
           {questions.map((question, index) => (
-            <div key={index}>
+            <div key={index} className="mt-4">
               <p>{question}</p>
               <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="2"></textarea>
             </div>
           ))}
-          <SubmitButton handleClick={handleSend}/>
           </>
         )}
       </div>
