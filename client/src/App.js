@@ -23,12 +23,12 @@ function Header(){
 //Function for sending data to backend
 const sendData = async(inputData) => {
   try{
-    const response = await fetch("http://localhost:5000/data", {
+    const response = await fetch("http://localhost:5000/get-data", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(inputData),
+      body: JSON.stringify({ usertext:inputData }),
     });
     const result = await response.json();
     console.log(result);
