@@ -73,11 +73,11 @@ Describe how to use the application, including any important details such as use
 
 # Contributors
 
-Team Member 1 – GitHub Profile
+Anirudh Krishna Ramkumar – GitHub Profile
 
-Team Member 2 – GitHub Profile
+Srinesh Selvaraj – GitHub Profile
 
-Team Member 3 – GitHub Profile
+John Argonza – GitHub Profile
 
 # License
 
