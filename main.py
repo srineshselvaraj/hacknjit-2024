@@ -5,7 +5,7 @@ conversation = model.conversation()
 userinput = input("What can I help with? ")
 
 while userinput != "end":
-    response = model.prompt(userinput)
+    response = conversation.prompt(userinput)
     print(response.text())
     userinput = input("Message the LLM... ")
 
