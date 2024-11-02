@@ -10,6 +10,9 @@ function Header(){
         <div id="login" className="d-flex justify-content-end me-3">
           <button id="login-button" className="btn btn-warning">Login</button>
         </div>
+        <div id="gacha" className="d-flex justify-content-end me-3">
+          <button id="gacha-button" className="btn btn-danger">Gacha</button>
+        </div>
     </nav>
   );
 }
