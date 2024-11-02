@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-import llmusage, notereader
+from flask import Flask, render_template, request, jsonify
+from llmusage import notes_summary, hello_world
 
 app = Flask(__name__)
 
@@ -7,9 +7,10 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-@app.route('/notes')
-def notes():
-    return render_template("notes.html")
+@app.route('/get-data', methods=["POST"])
+def get_data(usertext):
+    data = hello_world(text=usertext)
+    return jsonify(data)
 
 if __name__ == '__main__':
     app.run(debug=True)

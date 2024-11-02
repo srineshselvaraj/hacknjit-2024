@@ -11,4 +11,5 @@ def notes_summary(text = None, file=None):
     response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 1000)
     return response
 
-
+def hello_world(text):
+    return f"HELLO WORLD:\n{text}"
