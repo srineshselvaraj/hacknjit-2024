@@ -28,7 +28,7 @@ const sendData = async(inputData) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(inputData),
+      body: JSON.stringify({ usertext:inputData }),
     });
     const result = await response.json();
     console.log(result);
@@ -43,7 +43,6 @@ function UploadText(){
     const data = { input };
     sendData(data);
   };
-
   const handleUpload = async(event) => {
     const file = event.target.files[0];
     if(!file) return;
@@ -79,25 +78,24 @@ function UploadText(){
           </div>
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
+        {/*
         <div className="d-flex justify-content-center align-items-center mt-3">
           <button type="submit" className="btn btn-success" onClick={handleSend}>Submit</button>
         </div>
+        */}
+        <SubmitButton handleClick={handleSend} />
       </div>
     </div>
   );
 }
 
-function Question() {
-  const [input, setInput] = useState('');
-  const handleSend = () => {
-    const data = { input };
-    sendData(data);
-  };
+function Question({ input, setInput }) {
   return(
     <div className='container'>
-      <p>test question</p>
-      <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="3"></textarea>
-      <SubmitButton handleClick={handleSend}/>
+      <div className='mt-4'>
+        <p>test question</p>
+        <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="3"></textarea>
+      </div>
     </div>
   );
 }
@@ -113,11 +111,17 @@ const SubmitButton = ({ handleClick }) => {
 }
 
 function App() {
+  const [input, setInput] = useState('');
+  const handleSend = () => {
+    const data = { input };
+    sendData(data);
+  };
   return (
     <div>
       <Header />
       <UploadText />
-      <Question />
+      <Question input={input} setInput={setInput}/>
+      <SubmitButton handleClick={handleSend}/>
     </div>
   );
   /*
