@@ -23,7 +23,7 @@ function Header(){
 //Function for sending data to backend
 const sendData = async(inputData) => {
   try{
-    const response = await fetch("http://localhost:5000/data", {
+    const response = await fetch("http://localhost:5000/get-data", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ const sendData = async(inputData) => {
   }
 }
 
-function TextInput(){
+function UploadText(){
   const [input, setInput] = useState('');
   const handleSend = () => {
     const data = { input };
@@ -72,13 +72,12 @@ function TextInput(){
       <div className="mt-4">
         <h3 className="insertText">Insert your text here:</h3>
         <div className="d-flex justify-content-center align-items-center mb-3">
-          <p className="insertText mb-0">Or upload an image:</p>
+          <p className="insertText mb-0">Or upload an image/PDF:</p>
           <div>
-            <input id='fileInput' type="file" accept='image/*' ref={fileRef} onChange={handleUpload} />
-            <button onClick={handleClick} className="btn btn-primary ms-3">Upload image with OCR</button>
+            <input id='fileInput' type="file" accept='image/*,.pdf' ref={fileRef} onChange={handleUpload} />
+            <button onClick={handleClick} className="btn btn-primary ms-3">Import text with OCR</button>
           </div>
         </div>
-
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
         <div className="d-flex justify-content-center align-items-center mt-3">
           <button type="submit" className="btn btn-success" onClick={handleSend}>Submit</button>
@@ -87,11 +86,38 @@ function TextInput(){
     </div>
   );
 }
+
+function Question() {
+  const [input, setInput] = useState('');
+  const handleSend = () => {
+    const data = { input };
+    sendData(data);
+  };
+  return(
+    <div className='container'>
+      <p>test question</p>
+      <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="3"></textarea>
+      <SubmitButton handleClick={handleSend}/>
+    </div>
+  );
+}
+
+const SubmitButton = ({ handleClick }) => {
+  return(
+    <div className='container'>
+      <div className="d-flex justify-content-center align-items-center mt-3">
+          <button type="submit" className="btn btn-success" onClick={handleClick}>Submit</button>
+        </div>
+    </div>
+  );
+}
+
 function App() {
   return (
     <div>
       <Header />
-      <TextInput />
+      <UploadText />
+      <Question />
     </div>
   );
   /*
