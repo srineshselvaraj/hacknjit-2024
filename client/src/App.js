@@ -1,6 +1,6 @@
 //import logo from './logo.svg';
 import './App.css';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 function Header(){
   return(
@@ -89,12 +89,46 @@ function UploadText(){
   );
 }
 
-function Question({ input, setInput }) {
+function Question() {
+  const [input, setInput] = useState('');
+  const handleSend = () => {
+    const data = { input };
+    sendData(data);
+  };
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const getQuestions = async() => {
+      try{
+        const response = await fetch('http://localhost:5000/questions');
+        const data = await response.json();
+        setQuestions(data);
+      } catch(error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getQuestions();
+  }, []);
+
   return(
     <div className='container'>
       <div className='mt-4'>
-        <p>test question</p>
-        <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="3"></textarea>
+        {loading ? (
+          <p>Loading questions...</p>
+        ) : (
+          <>
+          {questions.map((question, index) => (
+            <div key={index}>
+              <p>{question}</p>
+              <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="2"></textarea>
+            </div>
+          ))}
+          <SubmitButton handleClick={handleSend}/>
+          </>
+        )}
       </div>
     </div>
   );
@@ -111,17 +145,11 @@ const SubmitButton = ({ handleClick }) => {
 }
 
 function App() {
-  const [input, setInput] = useState('');
-  const handleSend = () => {
-    const data = { input };
-    sendData(data);
-  };
   return (
     <div>
       <Header />
       <UploadText />
-      <Question input={input} setInput={setInput}/>
-      <SubmitButton handleClick={handleSend}/>
+      <Question />
     </div>
   );
   /*
