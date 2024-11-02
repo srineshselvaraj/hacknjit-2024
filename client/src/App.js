@@ -1,16 +1,22 @@
 //import logo from './logo.svg';
 import './App.css';
 
-function Button(){
+function Header(){
   return(
-    <button type="button" className="btn btn-primary">Button!!</button>
+    <nav className="navbar navbar-expand-md navbar-light bg-light">
+        <div id="title" className="d-flex justify-content-start ms-3">
+          <a className="navbar-brand" href="#">HackNJIT 2024</a>
+        </div>
+        <div id="login" className="d-flex justify-content-end me-3">
+          <button id="login-button" className="btn btn-warning">Login</button>
+        </div>
+    </nav>
   );
 }
 function App() {
   return (
     <div>
-      <h1>GAMER</h1>
-      <Button />
+      <Header />
     </div>
   );
   /*
