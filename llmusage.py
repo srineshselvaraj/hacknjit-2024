@@ -1,4 +1,4 @@
-import llm, re
+import llm, re, json
 
 last_notes_text = ""
 
@@ -33,8 +33,9 @@ def notes_handler(text = None, request="summary"):
         notes_text = last_notes_text
         print("hi")
         response = conversation.prompt(f"Given the following lecture notes, identify the most important definitions and create a list of flashcards formatted as a Python dictionary. COME UP WITH UNIQUE DEFINITIONS THAT AREN'T COPY PASTED FROM THE TEXT (generate them)! Each dictionary entry should have the term as the key and the definition as the value. Here are the notes: {notes_text}", max_tokens = 8192)
-        matches = re.findall(r'```(.*?)```', response.text(), re.DOTALL)
-        returnable = matches[0]
+        matches = re.findall(r'= (.*?)```', response.text(), re.DOTALL)
+        returnable = json.loads(matches[0])
+        
         return returnable
     
         
