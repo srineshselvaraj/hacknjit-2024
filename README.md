@@ -74,6 +74,9 @@ To use the application, enter in text in the textbox. Next, click the buttons to
 - Generate Questions: Generates questions designed to test the user's reading comprehension and understanding of the text's content
 - Generate Flashcards: Generates flashcards of the important terms and definitions in the text in order for the user to study them
 
+### Future Features:
+We want to implement a cache-based login system, where users will be able to save their generated text and study tools based on their login credentials which would be recorded over a server (currently data is stored only on a local server). We would also like to try using a more advanced paid LLM, since the free one we used for this project was a bit slower and more inaccurate than we would have liked. Finally, in the long term, we would like to develop a gamification system, where users can earn points for studying and potentially put them towards some kind of virtual reward, which we believe would increase productivity in students all around the world.
+
 ## Contributors
 
 Anirudh Krishna Ramkumar
