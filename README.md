@@ -41,40 +41,38 @@ cd hacknjit-2024
 ```
 2. Install Dependencies
 
-Ensure you have Conda installed
+Front-End
+
+```
+cd client
+npm install
+npm install react-router-dom
+
+```
+
+Back-End
+Ensure you have Conda installed to create a Conda Environment
 ```
 conda env create -f environment.yml
 conda activate cognition
 
 ```
 
-Front-End
-
-```
-cd frontend
-npm install
-```
-
-Back-End
-
-```
-cd backend
-npm install
-```
-
 4. Run the Project
 ```
 #In one terminal, run the back-end
-cd backend
-npm start
+python app.py
 
 #In another terminal, run the front-end
-cd cllient
+cd client
 npm start
 ```
 
 ## Usage
-Describe how to use the application, including any important details such as user roles, API endpoints, or special commands.
+To use the application, enter in text in the textbox. Next, click the buttons to have the website generate several different things based on which button was pressed: 
+- Summarize: Generates summaries of user inputted text such as notes or articles
+- Generate Questions: Generates questions designed to test the user's reading comprehension and understanding of the text's content
+- Generate Flashcards: Generates flashcards of the important terms and definitions in the text in order for the user to study them
 
 ## Contributors
 
