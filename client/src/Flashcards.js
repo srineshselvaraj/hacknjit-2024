@@ -28,8 +28,8 @@ const Card = ({ term, definition }) => {
 const DisplayCards = ({ terms }) => {
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {Object.entries(terms).map(([key, flashcard]) => (
-            <Card term={key} definition={flashcard} />
+        {Object.entries(terms).map(([term, definition]) => (
+            <Card key={term} term={term} definition={definition} />
         ))}
         {/*{loading ? (
           <p>Loading flashcards...</p>
