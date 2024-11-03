@@ -74,7 +74,8 @@ def uploads():
         return jsonify(usertext)
 
     else:
-        return jsonify({'error': 'Unsupported file type'}), 400
+        return jsonify({'error': 'Unsupported file type'}), 400 
+
 
 @app.route('/flashcards', methods=["GET", "POST"])
 def flashcards():
