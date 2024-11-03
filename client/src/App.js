@@ -135,7 +135,7 @@ const SubmitButton = ({ handleClick, text }) => {
   );
 }
 
-function App() {
+function AppRoutes() {
   const [summary, setSummary] = useState('');
   const [questions, setQuestions] = useState('');
   const [flashcards, setFlashcards] = useState('');
@@ -155,19 +155,25 @@ function App() {
   };
 
   return (
+    <div>
+    <Header />
+      <Routes>
+          <Route path="/" element={<UploadText onSummaryUpdate={updateSummary} onQuestionsUpdate={updateQuestions} onFlashcardsUpdate={updateFlashcards}/>} />
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/register" element={<Register />} />
+          <Route path="/summary" element={<Summary text={summary}/>} /> 
+          <Route path="/questions" element={<Questions questions={questions}/>} /> 
+          <Route path="/flashcards" element={<Flashcards terms={flashcards}/>} /> 
+      </Routes>
+    </div>
+  );
+}
+
+function App(){
+  return(
     <Router>
-      <div>
-      <Header />
-        <Routes>
-            <Route path="/" element={<UploadText onSummaryUpdate={updateSummary} onQuestionsUpdate={updateQuestions} onFlashcardsUpdate={updateFlashcards}/>} />
-            <Route path="/login" element={<Login />} /> 
-            <Route path="/register" element={<Register />} />
-            <Route path="/summary" element={<Summary text={summary}/>} /> 
-            <Route path="/questions" element={<Questions questions={questions}/>} /> 
-            <Route path="/flashcards" element={<Flashcards terms={flashcards}/>} /> 
-        </Routes>
-      </div>
-    </Router> 
+      <AppRoutes />
+    </Router>
   );
 }
 
