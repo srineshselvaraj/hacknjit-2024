@@ -57,6 +57,10 @@ def uploads():
     else:
         return jsonify({'error': 'Unsupported file type'}), 400
 
+"""@app.route('/login', methods=["POST"])
+def login():
+    username = request.json.get("username")
+    password = request.json.get("password")"""
 
 if __name__ == '__main__':
     app.run(debug=True)
