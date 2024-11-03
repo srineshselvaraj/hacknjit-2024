@@ -61,19 +61,16 @@ def uploads():
 
     content_type = file.content_type
     
-    print("q")
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
      
     if content_type.startswith('image/'):
         file.save(file_path)
         usertext = read_image_file(file_path)
-        print("b")
         return jsonify(usertext)
     
     elif content_type == 'application/pdf':
         file.save(file_path)
         usertext = extract_text_from_pdf(file_path)
-        print("a")
         return jsonify(usertext)
 
     else:
@@ -82,13 +79,19 @@ def uploads():
 
 @app.route('/flashcards', methods=["GET", "POST"])
 def flashcards():
-    print("hi")
     if request.method == "POST":
         usertext = request.json.get('usertext')
         flashcards = notes_handler(text=usertext, request="flashcards")
     elif request.method == "GET":
         flashcards = notes_handler(request="flashcards")
     return jsonify(flashcards)
+
+@app.route('/feedback', methods=["POST"])
+def feedback():
+    answers = request.json.get('answers')
+    feedback = notes_handler(text=answers, request="summary")
+    return jsonify(feedback)
+
 
 """def validated_user(connection, username, input_password):
     try:
