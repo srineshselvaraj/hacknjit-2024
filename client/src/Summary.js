@@ -4,28 +4,9 @@ import { Link } from 'react-router-dom';
 const DisplaySummary = ({summary}) => {
     return(
         <div className="container">
-        <div className="mt-4">
-            <p>{summary}</p>
-        {/*{loading ? (
-            <div className="container">
-                <div className="align-items-center">
-                <p>Loading summary...</p>
-                </div>
+            <div className="mt-4">
+                <p>{summary}</p>
             </div>
-            ) : (
-            <p>{summary}</p>
-            )}*/}
-        </div>
-        </div>
-    );
-}
-
-const Return = () => {
-    return (
-        <div className='container'>
-            <p>
-                Back to <Link to="/">Home</Link>
-            </p>
         </div>
     );
 }
@@ -54,7 +35,6 @@ const Summary = ({text}) => {
 
     return(
         <div>
-          <Return />
           <DisplaySummary summary={text}/>
         </div>
       );

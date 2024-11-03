@@ -4,6 +4,7 @@
 
 .insertText{
   text-align: center;
+  color: #FFFDD0;
 }
 
 #fileInput{
@@ -12,18 +13,21 @@
 
 .linkButton{
   text-decoration: none;
-  color: white;
+  color: #3B2A1E;
 }
 
 .form-group {
+  display: flex; /* Use flexbox for alignment */
+  align-items: center; /* Vertically center align items */
   width: 100%;
-  max-width: 400px; /* Set max width for inputs */
+  max-width: 500px; /* Set max width for inputs */
   margin: 0 auto; /* Center align the form group */
 }
 
 .form-label {
-  min-width: 80px; /* Ensures labels have consistent width */
-  text-align: right;
+  min-width: 150px; /* Ensures labels have consistent width */
+  text-align: right; /* Align text to the right */
+  margin-right: 10px; /* Add space between label and input */
 }
 
 .form-input {
@@ -31,6 +35,38 @@
   padding: 8px;
   border: 1px solid #ced4da;
   border-radius: 4px;
+}
+
+.container {
+  background-color: #4E3B31;
+  border-radius: 20px;
+  padding:10px;
+  margin-top:10px;
+}
+
+#background, html {
+  background-color: #3B2A1E;
+}
+
+.btn, #loginButton {
+  background-color: #D2B48C !important;
+  color:#3B2A1E !important;
+}
+
+.loginlink {
+  color: #D2B48C;
+}
+
+.container p, label {
+  color: #FFFDD0;
+}
+
+.navbar {
+  background-color: #B87333 !important;
+}
+
+.display-1 {
+  color: #FFFDD0 !important;
 }
 
 /*.App {
