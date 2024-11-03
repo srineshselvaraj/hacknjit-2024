@@ -25,23 +25,9 @@ function Header(){
 }
 
 //Function for sending data to backend
-const sendData = async(inputData) => {
+const sendData = async(inputData, url) => {
   try{
-    const response = await fetch("http://localhost:5000/get-data", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ usertext:inputData }),
-    });
-    const result = await response.json();
-    console.log(result);
-  } catch(error){
-    console.error(error);
-  }
-
-  try{
-    const response = await fetch("http://localhost:5000/questions", {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,9 +43,9 @@ const sendData = async(inputData) => {
 
 function UploadText({ getQuestions }){
   const [input, setInput] = useState('');
-  const handleSend = async () => {
+  const handleSend = async (url) => {
     const data = { input };
-    sendData(data);
+    sendData(data, url);
   };
 
   const handleUpload = async(event) => {
@@ -98,24 +84,24 @@ function UploadText({ getQuestions }){
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
         <Link to="/summary">
-          <SubmitButton handleClick={handleSend} text="Summary"/>
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/get-data" text="Summary"/>
         </Link>
         <Link to="/questions">
-          <SubmitButton handleClick={handleSend} text="Quiz"/>
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/questions" text="Quiz"/>
         </Link>
         <Link to="/flashcards">
-          <SubmitButton handleClick={handleSend} text="Flashcards"/>
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/flashcards" text="Flashcards"/>
         </Link>
       </div>
     </div>
   );
 }
 
-const SubmitButton = ({ handleClick, text}) => {
+const SubmitButton = ({ handleClick, url, text }) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleClick}>{text}</button>
+          <button type="submit" className="btn btn-success" onClick={handleClick(url)}>{text}</button>
         </div>
     </div>
   );
