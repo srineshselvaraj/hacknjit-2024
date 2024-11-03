@@ -136,12 +136,12 @@ const SubmitButton = ({ handleClick, text }) => {
 
 function AppRoutes() {
   const [summary, setSummary] = useState('');
-  const [questions, setQuestions] = useState([]);
-  const [flashcards, setFlashcards] = useState([]);
+  const [questions, setQuestions] = useState('');
+  const [flashcards, setFlashcards] = useState('');
   const navigate = useNavigate();
 
   const updateSummary = (data) => {
-    setSummary(data);
+    setSummary(data.summary);
     navigate("/summary");
   };
   const updateQuestions = (data) => {
