@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const DisplaySummary = ({summary, loading}) => {
@@ -32,19 +32,20 @@ const Return = () => {
 const Summary = () => {
     const [text, setText] = useState([]);
     const [loading, setLoading] = useState(true);
-    const getSummary = async() => {
-        try{
-            const response = await fetch('http://localhost:5000/get-data');
-            const data = await response.json();
-            setText(data);
-        } catch(error) {
-            console.error(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    getSummary();
+    useEffect(() => {
+        const getSummary = async() => {
+            try{
+                const response = await fetch('http://localhost:5000/get-data');
+                const data = await response.json();
+                setText(data);
+            } catch(error) {
+                console.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+        getSummary();
+    }, []);
 
     return(
         <div>

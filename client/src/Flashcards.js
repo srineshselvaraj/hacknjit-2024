@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 const Card = ({ question, answer }) => {
@@ -53,19 +53,21 @@ const Return = () => {
 const Flashcards = () => {
     const [terms, setTerms] = useState([]);
     const [loading, setLoading] = useState(true);
-    const getFlashcards = async() => {
-        try{
-            const response = await fetch('http://localhost:5000/flashcards');
-            const data = await response.json();
-            setTerms(data);
-        } catch(error) {
-            console.error(error.message);
-        } finally {
-            setLoading(false);
-        }
-    };
+    useEffect(() => {
+        const getFlashcards = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/flashcards');
+                const data = await response.json();
+                setTerms(data);
+            } catch (error) {
+                console.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    getFlashcards();
+        getFlashcards(); // Call the function once when the component mounts
+    }, []);
 
     return (
         <div>
