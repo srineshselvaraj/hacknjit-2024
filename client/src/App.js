@@ -2,7 +2,7 @@
 import './App.css';
 import { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Summary from './Summary';
@@ -50,7 +50,7 @@ function UploadText(){
   const [input, setInput] = useState('');
   const handleSend = async (url) => {
     const data = { input };
-    sendData(data, url);
+    await sendData(data, url);
   };
 
   const handleUpload = async(event) => {
@@ -76,6 +76,24 @@ function UploadText(){
   const handleClick = () => {
     fileRef.current.click();
   }
+
+  const navigate = useNavigate();
+
+  const handleSummaryClick = async () => {
+    await handleSend("http://localhost:5000/get-data"); // Send data and then navigate
+    navigate("/summary");
+  };
+
+  const handleQuestionsClick = async () => {
+    await handleSend("http://localhost:5000/questions"); // Send data and then navigate
+    navigate("/questions");
+  };
+
+  const handleFlashcardsClick = async () => {
+    await handleSend("http://localhost:5000/flashcards"); // Send data and then navigate
+    navigate("/flashcards");
+  };
+
   return(
     <div className='container'>
       <div className="mt-4">
@@ -89,15 +107,9 @@ function UploadText(){
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="20"></textarea>
         <div className="d-flex justify-content-center">
-          <Link className="linkButton" to="/summary">
-            <SubmitButton handleClick={() => handleSend("http://localhost:5000/get-data")} text="Summary"/>
-          </Link>
-          <Link className="linkButton" to="/questions">
-            <SubmitButton handleClick={() => handleSend("http://localhost:5000/questions")} text="Quiz"/>
-          </Link>
-          <Link className="linkButton" to="/flashcards">
-            <SubmitButton handleClick={() => handleSend("http://localhost:5000/flashcards")} text="Flashcards"/>
-          </Link>
+          <SubmitButton handleClick={handleSummaryClick} text="Summary"/>
+          <SubmitButton handleClick={handleQuestionsClick} text="Quiz"/>
+          <SubmitButton handleClick={handleFlashcardsClick} text="Flashcards"/>
         </div>
       </div>
     </div>
@@ -108,7 +120,7 @@ const SubmitButton = ({ handleClick, text }) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleClick}>{text}</button>
+          <button type="button" className="btn btn-success" onClick={handleClick}>{text}</button>
         </div>
     </div>
   );
