@@ -11,6 +11,7 @@ def notes_handler(text = None, file=None, request="summary"):
         notes_text = read_image_file(file)
     elif text:
         notes_text = text        
+    print("so far so good")
     if request == "summary": 
         response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 1000)
         summarized = True
@@ -23,9 +24,10 @@ def notes_handler(text = None, file=None, request="summary"):
         
         pattern = r'\d+\.\s*([^?]*\?)'
 
-        matches = re.findall(pattern, response)
+        matches = re.findall(pattern, response.text())
 
         cleaned_questions = [match.strip() for match in matches]
         
+        print(cleaned_questions)
         return cleaned_questions
 
