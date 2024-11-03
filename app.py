@@ -16,5 +16,11 @@ def get_data():
     data = notes_handler(text=usertext, request="summary")
     return jsonify(data)
 
+@app.route('/questions', methods=["GET, POST"])
+def questions():
+    usertext = request.json.get('usertext')
+    questions = notes_handler(text=usertext, request="questions")
+    return jsonify(questions)
+
 if __name__ == '__main__':
     app.run(debug=True)
