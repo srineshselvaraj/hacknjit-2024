@@ -13,20 +13,23 @@ Feature 2: Description of another feature
 Feature 3: Additional features that make your project stand out
 
 # Tech Stack
-Front-End
+## Front-End
 - React.js
 - JavaScript
 - CSS
 - HTML
 - Bootstrap
-Back-End
-- python
-- flask
-- llm
-- pytesseract
+
+## Back-End
+- Python
+- Flask
+- LLM
+- Pytesseract
 - PIL
 - PyPDF2
-Database
+
+## Database
+- PostgreSQL
 
 # Installation
 
