@@ -119,12 +119,20 @@ function Question() {
           </div>
         ) : (
           <>
-          {questions.map((question, index) => (
-            <div key={index} className="mt-4">
-              <p>{question}</p>
-              <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="2"></textarea>
-            </div>
-          ))}
+            {questions.map((question, index) => (
+              <div key={index} className="mt-4">
+                <p>{question}</p>
+                <textarea
+                  id="inputText"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  className="form-control"
+                  rows="2"
+                ></textarea>
+              </div>
+            ))}
+            {/* Button will only be displayed when loading is false */}
+            <button type="submit" className="btn btn-secondary">Submit</button>
           </>
         )}
       </div>
