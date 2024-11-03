@@ -64,13 +64,11 @@ def notes_handler(text = None, request="summary", id=0):
                 return cached_note_item["Questions"]
             elif request == "flashcards":
                 return cached_note_item["Flashcards"]
-    print("jjjjj")
     if text:
         notes_text = text
         last_notes_text = notes_text  
         cached_note_item["Original Notes"] = notes_text  
     if request == "summary": 
-        print("hi")
         notes_text = last_notes_text
         return "madeit"
         # response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
