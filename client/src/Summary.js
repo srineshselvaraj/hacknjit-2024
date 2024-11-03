@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const DisplaySummary = ({summary, loading}) => {
+const DisplaySummary = ({summary}) => {
     return(
         <div className="container">
         <div className="mt-4">
-        {loading ? (
+            <p>{summary}</p>
+        {/*{loading ? (
             <div className="container">
                 <div className="align-items-center">
                 <p>Loading summary...</p>
@@ -13,7 +14,7 @@ const DisplaySummary = ({summary, loading}) => {
             </div>
             ) : (
             <p>{summary}</p>
-            )}
+            )}*/}
         </div>
         </div>
     );
@@ -29,8 +30,8 @@ const Return = () => {
     );
 }
 
-const Summary = () => {
-    const [text, setText] = useState('');
+const Summary = ({text}) => {
+    /*const [text, setText] = useState('');
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getSummary = async() => {
@@ -40,7 +41,7 @@ const Summary = () => {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log("Fetched data:", data); 
+                console.log("Fetched data:", data
                 setText(data.summary);
             } catch(error) {
                 console.error(error.message);
@@ -49,12 +50,12 @@ const Summary = () => {
             }
         };
         getSummary();
-    }, []);
+    }, []);*/
 
     return(
         <div>
           <Return />
-          <DisplaySummary summary={text} loading={loading}/>
+          <DisplaySummary summary={text}/>
         </div>
       );
 }
