@@ -104,11 +104,11 @@ function UploadText(){
   );
 }
 
-const SubmitButton = ({ handleClick, url, text }) => {
+const SubmitButton = ({ handleClick, text }) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleClick(url)}>{text}</button>
+          <button type="submit" className="btn btn-success" onClick={handleClick}>{text}</button>
         </div>
     </div>
   );
