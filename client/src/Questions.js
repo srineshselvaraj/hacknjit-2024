@@ -9,7 +9,7 @@ const sendResponse = async (inputData, setFeedback, setLoadFeedback) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ usertext: inputData }),
+      body: JSON.stringify({ answers: inputData }),
     });
     const result = await response.json();
     console.log(result);
