@@ -15,7 +15,8 @@ cached_note_item = {
     "Original Notes":  "",
     "Summary": "",
     "Questions": [],
-    "Flashcards": {}
+    "Flashcards": {},
+    "Feedback": []
 }
 
 def notes_handler(text = None, request="summary"):
@@ -34,9 +35,13 @@ def notes_handler(text = None, request="summary"):
                 return cached_note_item["Flashcards"]
         
     if text:
-        notes_text = text
-        last_notes_text = notes_text  
-        cached_note_item["Original Notes"] = notes_text      
+        if request != "feedback": 
+            notes_text = text
+            last_notes_text = notes_text  
+            cached_note_item["Original Notes"] = notes_text
+        elif request == "feedback":
+            answers = text
+            cached_note_item["Feedback"] = answers   
     if request == "summary": 
         notes_text = last_notes_text
         response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
@@ -64,12 +69,13 @@ def notes_handler(text = None, request="summary"):
         cached_note_item["Flashcards"] = returnable
         result = returnable
     elif request == "feedback":
-        answers = text
-        response = conversation.prompt(f"Given the questions you asked, provide feedback for each answer listed below, letting the user know whether they were right or wrong and where their logic can improve - structure your response as a boolean list in python with a value of true or false for each question depending on whether or not the user was right followed by feedback for each question. Here are the user's answers: {answers}")
+        response = conversation.prompt(f"Given the questions you asked, provide feedback for each answer listed below, letting the user know whether they were right or wrong and where their logic can improve - structure your response as a boolean list in python with a value of true or false for each question depending on whether or not the user was right followed by feedback for each question. Here are the questions that the user tried to answer: {cached_note_item["Questions"]} and here are the user's answers: {answers}")
         
-        return response.text()
-        
-    usercache.append(cached_note_item)
+        cached_note_item["Feedback"] = response.text()
+        result = response.text()
+    
+    if cached_note_item not in usercache:   
+        usercache.append(cached_note_item)
     with open(CACHE_FILE_PATH, 'w') as file:
         json.dump(usercache, file)
 
