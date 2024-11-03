@@ -8,9 +8,11 @@ import Register from './Register';
 import Summary from './Summary';
 import Questions from './Questions';
 import Flashcards from './Flashcards';
+import { useUser } from './UserContext';
 
 function Header(){
   const location = useLocation();
+  const { username, logout } = useUser();
   return(
     <nav className="navbar navbar-expand-md navbar-light">
         <div className="container-fluid">
@@ -18,9 +20,14 @@ function Header(){
             <Link className="navbar-brand display-1" to="/">
               COGnition
             </Link>
-            {location.pathname === '/' && (
+            {username ? (
+                <>
+                    <span>{username}</span>
+                    <button onClick={logout} className="linkButton">Logout</button>
+                </>
+            ) : (
               <button id="loginButton" className="btn">
-                <Link className="linkButton" to="/login">Login</Link>
+                <Link className="linkButton" to="/login">Login/Register</Link>
               </button>
             )}
           </div>
@@ -55,6 +62,9 @@ function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
     return await sendData(data, url);
   };
 
+  const [responseText, setResponseText] = useState(''); // State to store response text
+  const [isFileUploaded, setIsFileUploaded] = useState(false); // Track file upload status
+  
   const handleUpload = async(event) => {
     const file = event.target.files[0];
     if(!file) return;
@@ -69,6 +79,9 @@ function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
       });
 
       const result = await response.json();
+      setResponseText(result);
+      setInput(result);
+      setIsFileUploaded(true);
       console.log(result);
     } catch (error) {
       console.error(error);
@@ -113,11 +126,11 @@ function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
             <button onClick={handleClick} className="btn ms-3">Import text with OCR</button>
           </div>
         </div>
-        <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="20"></textarea>
+        <textarea id="inputText" readOnly={isFileUploaded} value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="20"></textarea>
         <div className="d-flex justify-content-center">
-          <SubmitButton handleClick={handleSummaryClick} text="Summary"/>
-          <SubmitButton handleClick={handleQuestionsClick} text="Quiz"/>
-          <SubmitButton handleClick={handleFlashcardsClick} text="Flashcards"/>
+          <SubmitButton handleClick={handleSummaryClick} text="Summarize"/>
+          <SubmitButton handleClick={handleQuestionsClick} text="Generate Questions"/>
+          <SubmitButton handleClick={handleFlashcardsClick} text="Generate Flashcards"/>
         </div>
       </div>
     </div>
