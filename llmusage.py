@@ -21,6 +21,7 @@ cached_note_item = {
 def notes_handler(text = None, request="summary"):
     global last_notes_text
     global notes_text
+    global cached_note_item
     model = llm.get_model("Meta-Llama-3-8B-Instruct")
     conversation = model.conversation()
     for cached_note_item in usercache:
@@ -34,7 +35,8 @@ def notes_handler(text = None, request="summary"):
         
     if text:
         notes_text = text
-        last_notes_text = notes_text        
+        last_notes_text = notes_text  
+        cached_note_item["Original Notes"] = notes_text      
     if request == "summary": 
         notes_text = last_notes_text
         response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
