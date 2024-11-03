@@ -8,7 +8,10 @@ def notes_handler(text = None, request="summary"):
     conversation = model.conversation()
     if text:
         notes_text = text
-        last_notes_text = notes_text        
+        last_notes_text = notes_text
+    else:
+        print("No notes provided to summarize.")
+        return None        
     if request == "summary": 
         print("summary test")
         response = conversation.    prompt(f"Summarize {notes_text}", max_tokens = 8192)
