@@ -20,20 +20,20 @@ cached_note_item = {
     "Flashcards": {}
 }
 
-try:
-    connection = psycopg2.connect(
-        database="cognition", 
-        user="postgres", 
-        password="ididntthinkofone", 
-        host="localhost", 
-        port="5432"
-    )
-    print("Connection to PostgreSQL was successful!")
-except Exception as e:
-    print(f"Error: {e}")
-finally:
-    if connection:
-        print("I connected!")
+# try:
+#     connection = psycopg2.connect(
+#         database="cognition", 
+#         user="postgres", 
+#         password="ididntthinkofone", 
+#         host="localhost", 
+#         port="5432"
+#     )
+#     print("Connection to PostgreSQL was successful!")
+# except Exception as e:
+#     print(f"Error: {e}")
+# finally:
+#     if connection:
+#         print("I connected!")
 
 def notes_handler(text = None, request="summary"):
     global last_notes_text

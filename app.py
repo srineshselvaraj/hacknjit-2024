@@ -87,9 +87,6 @@ def flashcards():
         flashcards = notes_handler(request="flashcards")
     return jsonify(flashcards)
 
-<<<<<<< HEAD
-def validated_user(connection, username, input_password):
-=======
 @app.route('/feedback', methods=["POST"])
 def feedback():
     answers = request.json.get('answers')
@@ -97,8 +94,7 @@ def feedback():
     return jsonify(feedback)
 
 
-"""def validated_user(connection, username, input_password):
->>>>>>> 9a347c4412721a2ce2ffad662efdbc43ce62280f
+def validated_user(connection, username, input_password):
     try:
         cursor = connection.cursor()
         select_query = "SELECT * FROM users WHERE username = %s;"
@@ -185,7 +181,6 @@ def register():
     if request.method == "POST":
         username = request.json.get('username')
         password = request.json.get('password')
-        confirmPassword = request.json.get('confirmPassword')
         email = request.json.get("email")  # Retrieve email (optional)
         if user_exists(connection, username):
             message = "Username already taken. Please choose another."
