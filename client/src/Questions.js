@@ -30,7 +30,7 @@ function Question({ questions, handleSend }) {
 
   return (
     <div className='container'>
-      <div className='mt-4'>
+      <div className='mt-4 p-2'>
         {questions.map((question, index) => (
           <div key={index} className="mt-4">
             <p>{question}</p>
