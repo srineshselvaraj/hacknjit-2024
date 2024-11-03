@@ -1,6 +1,13 @@
 //import logo from './logo.svg';
 import './App.css';
 import { useState, useRef, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
+import Summary from './Summary';
+import Questions from './Questions';
+import Flashcards from './Flashcards';
 
 function Header(){
   return(
@@ -8,7 +15,9 @@ function Header(){
         <div className="container-fluid">
           <div id="header" className="d-flex justify-content-between align-items-center w-100 ms-3 me-3">
             <a className="navbar-brand display-1" href="#">HackNJIT 2024</a>
-            <button id="loginButton" className="btn btn-warning">Login</button>
+            <button id="loginButton" className="btn btn-warning">
+              <Link to="/login">Login</Link>
+            </button>
           </div>
         </div>
     </nav>
@@ -16,23 +25,9 @@ function Header(){
 }
 
 //Function for sending data to backend
-const sendData = async(inputData) => {
+const sendData = async(inputData, url) => {
   try{
-    const response = await fetch("http://localhost:5000/get-data", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ usertext:inputData }),
-    });
-    const result = await response.json();
-    console.log(result);
-  } catch(error){
-    console.error(error);
-  }
-
-  try{
-    const response = await fetch("http://localhost:5000/questions", {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,14 +43,9 @@ const sendData = async(inputData) => {
 
 function UploadText({ getQuestions }){
   const [input, setInput] = useState('');
-  const handleSend = async () => {
+  const handleSend = async (url) => {
     const data = { input };
-    await sendData(data);
-  };
-
-  const handleSubmit = async () => {
-    await handleSend();
-    await getQuestions();
+    sendData(data, url);
   };
 
   const handleUpload = async(event) => {
@@ -93,82 +83,45 @@ function UploadText({ getQuestions }){
           </div>
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
-        <SubmitButton handleClick={handleSubmit} />
+        <Link to="/summary">
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/get-data" text="Summary"/>
+        </Link>
+        <Link to="/questions">
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/questions" text="Quiz"/>
+        </Link>
+        <Link to="/flashcards">
+          <SubmitButton handleClick={handleSend} url="http://localhost:5000/flashcards" text="Flashcards"/>
+        </Link>
       </div>
     </div>
   );
 }
 
-function Question({questions, loading}) {
-  const [input, setInput] = useState('');
-  const handleSend = () => {
-    const data = { input };
-    sendData(data);
-  };
-
-  return(
-    <div className='container'>
-      <div className='mt-4'>
-        {loading ? (
-          <div className="container">
-            <div className="align-items-center">
-              <p>Loading questions...</p>
-            </div>
-          </div>
-        ) : (
-          <>
-            {questions.map((question, index) => (
-              <div key={index} className="mt-4">
-                <p>{question}</p>
-                <textarea
-                  id="inputText"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="form-control"
-                  rows="2"
-                ></textarea>
-              </div>
-            ))}
-            <SubmitButton handleClick={handleSend}/>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-const SubmitButton = ({ handleClick }) => {
+const SubmitButton = ({ handleClick, url, text }) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleClick}>Submit</button>
+          <button type="submit" className="btn btn-success" onClick={handleClick(url)}>{text}</button>
         </div>
     </div>
   );
 }
 
 function App() {
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const getQuestions = async() => {
-    try{
-      const response = await fetch('http://localhost:5000/questions');
-      const data = await response.json();
-      setQuestions(data);
-    } catch(error) {
-      console.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div>
+    <Router>
+      <div>
       <Header />
-      <UploadText getQuestions={getQuestions}/>
-      <Question questions={questions} loading={loading}/>
-    </div>
+        <Routes>
+            <Route path="/" element={<UploadText />} />
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/register" element={<Register />} />
+            <Route path="/summary" element={<Summary />} /> 
+            <Route path="/questions" element={<Questions />} /> 
+            <Route path="/flashcards" element={<Flashcards />} /> 
+        </Routes>
+      </div>
+    </Router> 
   );
 }
 
