@@ -11,11 +11,6 @@ function Header(){
             <button id="loginButton" className="btn btn-warning">Login</button>
           </div>
         </div>
-        {/*
-        <div id="gacha" className="d-flex justify-content-around me-3">
-          <button id="gachaButton" className="btn btn-danger">Gacha</button>
-        </div>
-        */} 
     </nav>
   );
 }
@@ -53,10 +48,16 @@ const sendData = async(inputData) => {
 
 function UploadText({ getQuestions }){
   const [input, setInput] = useState('');
-  const handleSend = () => {
+  const handleSend = async () => {
     const data = { input };
-    sendData(data);
+    await sendData(data);
   };
+
+  const handleSubmit = async () => {
+    await handleSend();
+    await getQuestions();
+  };
+
   const handleUpload = async(event) => {
     const file = event.target.files[0];
     if(!file) return;
@@ -92,15 +93,7 @@ function UploadText({ getQuestions }){
           </div>
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
-        {/*
-        <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleSend}>Submit</button>
-        </div>
-        */}
-        <SubmitButton handleClick={() => {
-          handleSend(); 
-          getQuestions();
-        }} />
+        <SubmitButton handleClick={handleSubmit} />
       </div>
     </div>
   );
@@ -136,7 +129,6 @@ function Question({questions, loading}) {
                 ></textarea>
               </div>
             ))}
-            {/* Button will only be displayed when loading is false */}
             <SubmitButton handleClick={handleSend}/>
           </>
         )}
@@ -178,26 +170,6 @@ function App() {
       <Question questions={questions} loading={loading}/>
     </div>
   );
-  /*
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-  */
 }
 
 export default App;
