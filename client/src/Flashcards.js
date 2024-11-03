@@ -51,30 +51,23 @@ const Return = () => {
 };
 
 const Flashcards = () => {
-  const [terms, setTerms] = useState({});
-  const [loading, setLoading] = useState(true);
+    const [terms, setTerms] = useState([]);
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const getFlashcards = async () => {
+            try {
+                const response = await fetch('http://localhost:5000/flashcards');
+                const data = await response.json();
+                setTerms(data);
+            } catch (error) {
+                console.error(error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-  useEffect(() => {
-    const getFlashcards = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/flashcards', {
-          method: 'POST', // Ensure you're using the correct method
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ usertext: 'Your input text here' }), // Adjust based on your needs
-        });
-        const data = await response.json();
-        setTerms(data); // Set terms directly as a dictionary
-      } catch (error) {
-        console.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getFlashcards(); // Call the function when the component mounts
-  }, []); // Empty dependency array ensures this runs only once
+        getFlashcards(); // Call the function once when the component mounts
+    }, []);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 const sendResponse = async(inputData) => {
     try{
@@ -107,18 +107,22 @@ const Questions = () => {
     const [loading, setLoading] = useState(true);
     const [feedback, setFeedback] = useState('');
     const [loadFeedback, setLoadFeedback] = useState(true);
-  
-    const getQuestions = async() => {
-      try{
-        const response = await fetch('http://localhost:5000/questions');
-        const data = await response.json();
-        setQuestions(data);
-      } catch(error) {
-        console.error(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
+    useEffect(() => {
+        const getQuestions = async() => {
+            try{
+              const response = await fetch('http://localhost:5000/questions');
+              const data = await response.json();
+              setQuestions(data);
+            } catch(error) {
+              console.error(error.message);
+            } finally {
+              setLoading(false);
+            }
+        };
+
+        getQuestions();
+    }, []);
   
     const getFeedback = async() => {
       try{
@@ -131,8 +135,6 @@ const Questions = () => {
         setLoadFeedback(false);
       }
     };
-
-    getQuestions();
   
     return(
       <div>
