@@ -7,7 +7,7 @@ import psycopg2
 
 app = Flask(__name__)
 
-try:
+"""try:
     connection = psycopg2.connect(
         database="cognition", 
         user="postgres", 
@@ -20,7 +20,7 @@ except Exception as e:
     print(f"Error: {e}")
 finally:
     if connection:
-        print("I connected!")
+        print("I connected!")"""
 
 CORS(app)
 
@@ -61,16 +61,19 @@ def uploads():
 
     content_type = file.content_type
     
+    print("q")
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
      
     if content_type.startswith('image/'):
         file.save(file_path)
         usertext = read_image_file(file_path)
+        print("b")
         return jsonify(usertext)
     
     elif content_type == 'application/pdf':
         file.save(file_path)
         usertext = extract_text_from_pdf(file_path)
+        print("a")
         return jsonify(usertext)
 
     else:
@@ -87,7 +90,7 @@ def flashcards():
         flashcards = notes_handler(request="flashcards")
     return jsonify(flashcards)
 
-def validated_user(connection, username, input_password):
+"""def validated_user(connection, username, input_password):
     try:
         cursor = connection.cursor()
         select_query = "SELECT * FROM users WHERE username = %s;"
@@ -128,11 +131,11 @@ def user_exists(connection, username):
 def insert_user(connection, username, password, email):
     try:
         cursor = connection.cursor()
-        insert_query = """
+        insert_query = \"""
         INSERT INTO users (username, password_hash, email)
         VALUES (%s, %s, %s)
         RETURNING user_id;
-        """
+        \"""
         password_hash = password #Possibility for future encryption
         cursor.execute(insert_query, (username, password_hash, email))
         user_id = cursor.fetchone()[0]  # Retrieve the generated ID
@@ -173,6 +176,6 @@ def register():
             return redirect(url_for("login"))
         print(message)
     return message
-
+"""
 if __name__ == '__main__':
     app.run(debug=True)
