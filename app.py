@@ -20,6 +20,7 @@ def home():
 def get_data():
     usertext = request.json.get('usertext')
     data = notes_handler(text=usertext, request="summary")
+    print("im here now")
     return jsonify(data)
 
 @app.route('/questions', methods=["GET", "POST"])
@@ -56,6 +57,16 @@ def uploads():
 
     else:
         return jsonify({'error': 'Unsupported file type'}), 400
+
+@app.route('/flashcards', methods=["GET", "POST"])
+def flashcards():
+    print("hi")
+    if request.method == "POST":
+        usertext = request.json.get('usertext')
+        flashcards = notes_handler(text=usertext, request="flashcards")
+    elif request.method == "GET":
+        flashcards = notes_handler(request="flashcards")
+    return jsonify(flashcards)
 
 """@app.route('/login', methods=["POST"])
 def login():
