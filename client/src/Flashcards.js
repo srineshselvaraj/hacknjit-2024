@@ -26,18 +26,19 @@ const Card = ({ term, definition }) => {
 };
 
 const DisplayCards = ({ terms, loading }) => {
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-      {loading ? (
-        <p>Loading flashcards...</p>
-      ) : (
-        Object.entries(terms).map(([term, definition]) => (
-          <Card key={term} term={term} definition={definition} />
-        ))
-      )}
-    </div>
-  );
-};
+    return (
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+        {loading ? (
+          <p>Loading flashcards...</p>
+        ) : (
+          terms.map(flashcard => (
+            <Card question={flashcard.question} answer={flashcard.answer} />
+          ))
+        )}
+      </div>
+    );
+  };
+  
 
 const Return = () => {
   return (
