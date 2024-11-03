@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './App.css';
 
 const sendResponse = async (inputData, setFeedback, setLoadFeedback) => {
   try {
@@ -53,17 +54,17 @@ const SubmitButton = ({ handleClick }) => {
   return (
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-        <button type="submit" className="btn btn-success" onClick={handleClick}>Submit</button>
+        <button type="submit" className="btn" onClick={handleClick}>Submit</button>
       </div>
     </div>
   );
 }
 
-const Feedback = ({ feedback, loading }) => {
+const Feedback = ({ feedback, loading, isSubmitted }) => {
   return (
     <div className="container">
       <div className="mt-4">
-        {loading ? (
+        {loading ? isSubmitted (
           <div className="container">
             <div className="align-items-center">
               <p>Loading feedback...</p>
@@ -79,18 +80,20 @@ const Feedback = ({ feedback, loading }) => {
 
 const Questions = ({ questions }) => {
   const [feedback, setFeedback] = useState('');
-  const [loadFeedback, setLoadFeedback] = useState(true);
-
+  const [loadFeedback, setLoadFeedback] = useState(false);
+  const [isSubmitted, setSubmitted] = useState(false);
   const handleSend = async (inputs) => {
     // Use sendResponse to POST and update feedback state
+    setFeedback('');
     setLoadFeedback(true);  // Start loading
+    setSubmitted(true);
     await sendResponse(inputs, setFeedback, setLoadFeedback); // Send response and set feedback
   };
 
   return (
     <div>
       <Question questions={questions} handleSend={handleSend} />
-      <Feedback feedback={feedback} loading={loadFeedback} />
+      <Feedback feedback={feedback} loading={loadFeedback} isSubmitted={isSubmitted}/>
     </div>
   );
 }
