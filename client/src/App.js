@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
+import Summary from './Summary';
+import Questions from './Questions';
+import Flashcards from './Flashcards';
 
 function Header(){
   return(
@@ -59,11 +62,6 @@ function UploadText({ getQuestions }){
     sendData(data);
   };
 
-  const handleSubmit = async () => {
-    await handleSend();
-    await getQuestions();
-  };
-
   const handleUpload = async(event) => {
     const file = event.target.files[0];
     if(!file) return;
@@ -99,140 +97,26 @@ function UploadText({ getQuestions }){
           </div>
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
-        <SubmitButton handleClick={handleSubmit} />
+        <Link to="/summary">
+          <SubmitButton handleClick={handleSend} text="Summary"/>
+        </Link>
+        <Link to="/questions">
+          <SubmitButton handleClick={handleSend} text="Quiz"/>
+        </Link>
+        <Link to="/flashcards">
+          <SubmitButton handleClick={handleSend} text="Flashcards"/>
+        </Link>
       </div>
     </div>
   );
 }
 
-const sendResponse = async(inputData) => {
-  try{
-    const response = await fetch("http://localhost:5000/feedback", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ usertext:inputData }),
-    });
-    const result = await response.json();
-    console.log(result);
-  } catch(error){
-    console.error(error);
-  }
-}
-
-
-function Question({questions, loading, getFeedback}) {
-  const [inputs, setInputs] = useState(Array(questions.length).fill(''));
-  const handleInputChange = (index, value) => {
-    const newInputs = [...inputs];
-    newInputs[index] = value;
-    setInputs(newInputs);
-  };
-  const handleSend = () => {
-    const data = { inputs };
-    sendResponse(data);
-  };
-
-  const handleSubmit = () => {
-    handleSend();
-    getFeedback();
-  }
-
-  return(
-    <div className='container'>
-      <div className='mt-4'>
-        {loading ? (
-          <div className="container">
-            <div className="align-items-center">
-              <p>Loading questions...</p>
-            </div>
-          </div>
-        ) : (
-          <>
-            {questions.map((question, index) => (
-              <div key={index} className="mt-4">
-                <p>{question}</p>
-                <textarea
-                  id="inputText"
-                  value={inputs[index]}
-                  onChange={(e) => handleInputChange(index, e.target.value)}
-                  className="form-control"
-                  rows="2"
-                ></textarea>
-              </div>
-            ))}
-            <SubmitButton handleClick={handleSubmit}/>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
-
-const SubmitButton = ({ handleClick }) => {
+const SubmitButton = ({ handleClick, text}) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="submit" className="btn btn-success" onClick={handleClick}>Submit</button>
+          <button type="submit" className="btn btn-success" onClick={handleClick}>{text}</button>
         </div>
-    </div>
-  );
-}
-
-const Feedback = ({response, loading}) => {
-  return(
-    <div class="container">
-      <div class="mt-4">
-      {loading ? (
-          <div className="container">
-            <div className="align-items-center">
-              <p>Loading feedback...</p>
-            </div>
-          </div>
-        ) : (
-          <p>{response}</p>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function Home(){
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [feedback, setFeedback] = useState('');
-  const [loadFeedback, setLoadFeedback] = useState(true);
-
-  const getQuestions = async() => {
-    try{
-      const response = await fetch('http://localhost:5000/questions');
-      const data = await response.json();
-      setQuestions(data);
-    } catch(error) {
-      console.error(error.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getFeedback = async() => {
-    try{
-      const response = await fetch('http://localhost:5000/feedback');
-      const data = await response.json();
-      setFeedback(data);
-    } catch(error) {
-      console.error(error.message);
-    } finally {
-      setLoadFeedback(false);
-    }
-  };
-
-  return(
-    <div>
-      <UploadText getQuestions={getQuestions} />
-      <Question questions={questions} loading={loading} getFeedback={getFeedback}/>
-      <Feedback feedback={feedback} loading={loadFeedback} />
     </div>
   );
 }
@@ -243,12 +127,15 @@ function App() {
       <div>
       <Header />
         <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<UploadText />} />
             <Route path="/login" element={<Login />} /> 
-            <Route path="/register" element={<Register />} /> 
+            <Route path="/register" element={<Register />} />
+            <Route path="/summary" element={<Summary />} /> 
+            <Route path="/questions" element={<Questions />} /> 
+            <Route path="/flashcards" element={<Flashcards />} /> 
         </Routes>
       </div>
-    </Router>
+    </Router> 
   );
 }
 
