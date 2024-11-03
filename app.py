@@ -23,7 +23,6 @@ def get_data():
         data = notes_handler(text=usertext, request="summary")
     if request.method == "GET":
         data = notes_handler(request="summary")
-    print("im here now")
     return jsonify({"summary": data})
 
 @app.route('/questions', methods=["GET", "POST"])
