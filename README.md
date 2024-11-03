@@ -1,20 +1,11 @@
-# **__HACKATHON STEAMPUNK PROJECT 2024 (Name WIP)__**
-
-Table of Contents:
-Project Overview
-Features
-Tech Stack
-Installation
-Usage
-Contributors
-License
+# **COGnition.ai **
 
 # Project Overview
 Description
-Provide a brief description of what the project does, the problem it aims to solve, and any unique features.
+An LLM-powered learning tool that allows users to quickly generate summaries, questions, and flashcards based on any given text, with OCR capabilities, a login system, and an intuitive layout.
 
 Inspiration
-Describe the inspiration behind this project, including any challenges or insights that led to its creation.
+We wanted to do something in the realm of AI and decided that creating a page where students could use LLM technology to create study tools like flashcards and summaries would be very useful, since creating tools like that for studying is an intensive task that only ends up giving the student less time to use the tools they made.
 
 # Features
 Feature 1: Description of a main feature
@@ -23,11 +14,21 @@ Feature 3: Additional features that make your project stand out
 
 # Tech Stack
 Front-End
-List front-end technologies (e.g., React, Vue, etc.)
+- React.js
+- JavaScript
+- CSS
+- HTML
+- Bootstrap
 Back-End
-List back-end technologies (e.g., Node.js, Django, etc.)
+- python
+- flask
+- llm
+- pytesseract
+- PIL
+- PyPDF2
 Database
-List database technologies (e.g., MongoDB, MySQL, etc.)
+- PostgreSQL
+
 
 # Installation
 
@@ -51,11 +52,6 @@ Back-End
 cd backend
 npm install
 ```
-
-3. Environment Setup
-
-Create a .env file in both frontend and backend directories.
-Add necessary environment variables as specified in .env.example.
 
 4. Run the Project
 ```
