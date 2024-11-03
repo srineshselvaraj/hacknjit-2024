@@ -35,6 +35,20 @@ const sendData = async(inputData) => {
   } catch(error){
     console.error(error);
   }
+
+  try{
+    const response = await fetch("http://localhost:5000/questions", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ usertext:inputData }),
+    });
+    const result = await response.json();
+    console.log(result);
+  } catch(error){
+    console.error(error);
+  }
 }
 
 function UploadText({ getQuestions }){
