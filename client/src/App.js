@@ -37,7 +37,7 @@ const sendData = async(inputData) => {
   }
 }
 
-function UploadText(){
+function UploadText({ getQuestions }){
   const [input, setInput] = useState('');
   const handleSend = () => {
     const data = { input };
@@ -83,30 +83,21 @@ function UploadText(){
           <button type="submit" className="btn btn-success" onClick={handleSend}>Submit</button>
         </div>
         */}
-        <SubmitButton handleClick={handleSend} />
+        <SubmitButton handleClick={() => {
+          handleSend(); 
+          getQuestions();
+        }} />
       </div>
     </div>
   );
 }
 
-function Question() {
+function Question({questions, loading}) {
   const [input, setInput] = useState('');
-  const [questions, setQuestions] = useState([]);
-  const [loading, setLoading] = useState(false);
-
-  const getQuestions = async() => {
-    try{
-      const response = await fetch('http://localhost:5000/questions');
-      const data = await response.json();
-      setQuestions(data);
-    } catch(error) {
-      console.error(error.message);
-    } finally {
-      setLoading(false);
-    }
+  const handleSend = () => {
+    const data = { input };
+    sendData(data);
   };
-
-  getQuestions();
 
   return(
     <div className='container'>
@@ -132,7 +123,7 @@ function Question() {
               </div>
             ))}
             {/* Button will only be displayed when loading is false */}
-            <button type="submit" className="btn btn-secondary">Submit</button>
+            <SubmitButton handleClick={handleSend}/>
           </>
         )}
       </div>
@@ -151,11 +142,26 @@ const SubmitButton = ({ handleClick }) => {
 }
 
 function App() {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const getQuestions = async() => {
+    try{
+      const response = await fetch('http://localhost:5000/questions');
+      const data = await response.json();
+      setQuestions(data);
+    } catch(error) {
+      console.error(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Header />
-      <UploadText />
-      <Question />
+      <UploadText getQuestions={getQuestions}/>
+      <Question questions={questions} loading={loading}/>
     </div>
   );
   /*
