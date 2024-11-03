@@ -48,7 +48,7 @@ const sendData = async(inputData, url) => {
   }
 }
 
-function UploadText(){
+function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
   const [input, setInput] = useState('');
   const handleSend = async (url) => {
     const data = { input };
@@ -78,14 +78,11 @@ function UploadText(){
   const handleClick = () => {
     fileRef.current.click();
   }
-
-  const navigate = useNavigate();
-
   const handleSummaryClick = async (event) => {
     event.preventDefault(); // Prevent any default action
     const result = await handleSend("http://localhost:5000/get-data");
     if (result) { // Only navigate if result is successful
-      navigate("/summary");
+      onSummaryUpdate(result);
     }
   };
 
@@ -93,7 +90,7 @@ function UploadText(){
     event.preventDefault(); // Prevent any default action
     const result = await handleSend("http://localhost:5000/questions");
     if (result) { // Only navigate if result is successful
-      navigate("/questions");
+      onQuestionsUpdate(result);
     }
   };
 
@@ -101,7 +98,7 @@ function UploadText(){
     event.preventDefault(); // Prevent any default action
     const result = await handleSend("http://localhost:5000/flashcards");
     if (result) { // Only navigate if result is successful
-      navigate("/flashcards");
+      onFlashcardsUpdate(result);
     }
   };
 
@@ -138,17 +135,35 @@ const SubmitButton = ({ handleClick, text }) => {
 }
 
 function App() {
+  const [summary, setSummary] = useState('');
+  const [questions, setQuestions] = useState('');
+  const [flashcards, setFlashcards] = useState('');
+  const navigate = useNavigate();
+
+  const updateSummary = (data) => {
+    setSummary(data);
+    navigate("/summary");
+  };
+  const updateQuestions = (data) => {
+    setQuestions(data);
+    navigate("/questions");
+  };
+  const updateFlashcards = (data) => {
+    setFlashcards(data);
+    navigate("/flashcards");
+  };
+
   return (
     <Router>
       <div>
       <Header />
         <Routes>
-            <Route path="/" element={<UploadText />} />
+            <Route path="/" element={<UploadText onSummaryUpdate={updateSummary} onQuestionsUpdate={updateQuestions} onFlashcardsUpdate={updateFlashcards}/>} />
             <Route path="/login" element={<Login />} /> 
             <Route path="/register" element={<Register />} />
-            <Route path="/summary" element={<Summary />} /> 
-            <Route path="/questions" element={<Questions />} /> 
-            <Route path="/flashcards" element={<Flashcards />} /> 
+            <Route path="/summary" element={<Summary text={summary}/>} /> 
+            <Route path="/questions" element={<Questions questions={questions}/>} /> 
+            <Route path="/flashcards" element={<Flashcards terms={flashcards}/>} /> 
         </Routes>
       </div>
     </Router> 

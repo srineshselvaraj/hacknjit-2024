@@ -25,16 +25,19 @@ const Card = ({ term, definition }) => {
   );
 };
 
-const DisplayCards = ({ terms, loading }) => {
+const DisplayCards = ({ terms }) => {
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {loading ? (
+        {terms.map(flashcard => (
+            <Card question={flashcard.question} answer={flashcard.answer} />
+        ))}
+        {/*{loading ? (
           <p>Loading flashcards...</p>
         ) : (
           terms.map(flashcard => (
             <Card question={flashcard.question} answer={flashcard.answer} />
           ))
-        )}
+        )}*/}
       </div>
     );
   };
@@ -50,8 +53,8 @@ const Return = () => {
   );
 };
 
-const Flashcards = () => {
-    const [terms, setTerms] = useState([]);
+const Flashcards = ({terms}) => {
+    /*const [terms, setTerms] = useState([]);
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getFlashcards = async () => {
@@ -67,12 +70,12 @@ const Flashcards = () => {
         };
 
         getFlashcards(); // Call the function once when the component mounts
-    }, []);
+    }, []);*/
 
   return (
     <div>
       <Return />
-      <DisplayCards terms={terms} loading={loading} />
+      <DisplayCards terms={terms} />
     </div>
   );
 }
