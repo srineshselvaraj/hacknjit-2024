@@ -1,4 +1,4 @@
-import llm, re
+import llm, re, json
 
 last_notes_text = ""
 notes_text = ""
