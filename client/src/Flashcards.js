@@ -19,8 +19,9 @@ const Card = ({ term, definition }) => {
         backgroundColor: isFlipped ? '#f0f8ff' : '#fff',
       }}
     >
-      <h3>{isFlipped ? definition : term}</h3>
-      <p>Click to {isFlipped ? "see term" : "see definition"}</p>
+      <p style={{ fontSize: isFlipped ? '12px' : '18px' }}>
+        {isFlipped ? definition : term}
+      </p>
     </div>
   );
 };
