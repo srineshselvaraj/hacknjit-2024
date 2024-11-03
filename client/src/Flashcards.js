@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Card = ({ question, answer }) => {
+const Card = ({ term, definition }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -19,60 +19,68 @@ const Card = ({ question, answer }) => {
         backgroundColor: isFlipped ? '#f0f8ff' : '#fff',
       }}
     >
-      <h3>{isFlipped ? answer : question}</h3>
-      <p>Click to {isFlipped ? "see question" : "see answer"}</p>
+      <h3>{isFlipped ? definition : term}</h3>
+      <p>Click to {isFlipped ? "see term" : "see definition"}</p>
     </div>
   );
 };
 
 const DisplayCards = ({ terms, loading }) => {
-    return (
-      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {loading ? (
-          <p>Loading flashcards...</p>
-        ) : (
-          terms.map(flashcard => (
-            <Card key={flashcard.id} question={flashcard.question} answer={flashcard.answer} />
-          ))
-        )}
-      </div>
-    );
-  };
-  
+  return (
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {loading ? (
+        <p>Loading flashcards...</p>
+      ) : (
+        Object.entries(terms).map(([term, definition]) => (
+          <Card key={term} term={term} definition={definition} />
+        ))
+      )}
+    </div>
+  );
+};
 
 const Return = () => {
-    return (
-        <div className='container'>
-            <p>
-                Back to <Link to="/">Home</Link>
-            </p>
-        </div>
-    );
-}
+  return (
+    <div className='container'>
+      <p>
+        Back to <Link to="/">Home</Link>
+      </p>
+    </div>
+  );
+};
 
 const Flashcards = () => {
-    const [terms, setTerms] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const getFlashcards = async() => {
-        try{
-            const response = await fetch('http://localhost:5000/flashcards');
-            const data = await response.json();
-            setTerms(data);
-        } catch(error) {
-            console.error(error.message);
-        } finally {
-            setLoading(false);
-        }
+  const [terms, setTerms] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const getFlashcards = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/flashcards', {
+          method: 'POST', // Ensure you're using the correct method
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ usertext: 'Your input text here' }), // Adjust based on your needs
+        });
+        const data = await response.json();
+        setTerms(data); // Set terms directly as a dictionary
+      } catch (error) {
+        console.error(error.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    getFlashcards();
+    getFlashcards(); // Call the function when the component mounts
+  }, []); // Empty dependency array ensures this runs only once
 
-    return (
-        <div>
-            <Return />
-            <DisplayCards terms={terms} loading={loading} />
-        </div>
-    );
+  return (
+    <div>
+      <Return />
+      <DisplayCards terms={terms} loading={loading} />
+    </div>
+  );
 }
 
 export default Flashcards;
