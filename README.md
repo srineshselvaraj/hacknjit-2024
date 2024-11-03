@@ -1,42 +1,52 @@
-# **__HACKATHON STEAMPUNK PROJECT 2024 (Name WIP)__**
+# COGnition
 
-Table of Contents:
-Project Overview
-Features
-Tech Stack
-Installation
-Usage
-Contributors
-License
+## Project Overview
+### Description
+An LLM-powered learning tool that allows users to quickly generate summaries, questions, and flashcards based on any given text, with OCR capabilities, a login system, and an intuitive layout.
 
-# Project Overview
-Description
-Provide a brief description of what the project does, the problem it aims to solve, and any unique features.
+### Inspiration
+We wanted to do something in the realm of AI and decided that creating a page where students could use LLM technology to create study tools like flashcards and summaries would be very useful, since creating tools like that for studying is an intensive task that only ends up giving the student less time to use the tools they made.
 
-Inspiration
-Describe the inspiration behind this project, including any challenges or insights that led to its creation.
+## Features
+- Uses OCR technology to scrape text from an image or pdf
+- Generates summaries of user inputted text such as notes or articles
+- Generates questions designed to test the user's reading comprehension and understanding of the text's content
+- Generates flashcards of the important terms and definitions in the text in order for the user to study them 
 
-# Features
-Feature 1: Description of a main feature
-Feature 2: Description of another feature
-Feature 3: Additional features that make your project stand out
+## Tech Stack
+### Front-End
+- React.js
+- JavaScript
+- CSS
+- HTML
+- Bootstrap
 
-# Tech Stack
-Front-End
-List front-end technologies (e.g., React, Vue, etc.)
-Back-End
-List back-end technologies (e.g., Node.js, Django, etc.)
-Database
-List database technologies (e.g., MongoDB, MySQL, etc.)
+### Back-End
+- Python
+- Flask
+- LLM
+- Pytesseract
+- PIL
+- PyPDF2
 
-# Installation
+### Database
+- PostgreSQL
+
+## Installation
 
 1. Clone the Repository
 ```
-git clone https://github.com/your-username/project-name.git
-cd project-name
+git clone https://github.com/srineshselvaraj/hacknjit-2024.git
+cd hacknjit-2024
 ```
 2. Install Dependencies
+
+Ensure you have Conda installed
+```
+conda env create -f environment.yml
+conda activate cognition
+
+```
 
 Front-End
 
@@ -51,11 +61,6 @@ Back-End
 cd backend
 npm install
 ```
-
-3. Environment Setup
-
-Create a .env file in both frontend and backend directories.
-Add necessary environment variables as specified in .env.example.
 
 4. Run the Project
 ```
@@ -64,21 +69,19 @@ cd backend
 npm start
 
 #In another terminal, run the front-end
-cd frontend
+cd cllient
 npm start
 ```
 
-# Usage
+## Usage
 Describe how to use the application, including any important details such as user roles, API endpoints, or special commands.
 
-# Contributors
+## Contributors
 
-Anirudh Krishna Ramkumar – GitHub Profile
+Anirudh Krishna Ramkumar
 
-Srinesh Selvaraj – GitHub Profile
+Srinesh Selvaraj 
 
-John Argonza – GitHub Profile
-
-# License
+John Argonza 
 
 
