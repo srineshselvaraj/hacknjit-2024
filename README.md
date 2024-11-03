@@ -1,10 +1,10 @@
 # COGnition.ai
 
 ## Project Overview
-Description
+### Description
 An LLM-powered learning tool that allows users to quickly generate summaries, questions, and flashcards based on any given text, with OCR capabilities, a login system, and an intuitive layout.
 
-## Inspiration
+### Inspiration
 We wanted to do something in the realm of AI and decided that creating a page where students could use LLM technology to create study tools like flashcards and summaries would be very useful, since creating tools like that for studying is an intensive task that only ends up giving the student less time to use the tools they made.
 
 ## Features
