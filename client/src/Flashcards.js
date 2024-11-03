@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-const Card = ({ question, answer }) => {
+const Card = ({ term, definition }) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -19,8 +19,8 @@ const Card = ({ question, answer }) => {
         backgroundColor: isFlipped ? '#f0f8ff' : '#fff',
       }}
     >
-      <h3>{isFlipped ? answer : question}</h3>
-      <p>Click to {isFlipped ? "see question" : "see answer"}</p>
+      <h3>{isFlipped ? definition : term}</h3>
+      <p>Click to {isFlipped ? "see term" : "see definition"}</p>
     </div>
   );
 };
@@ -41,14 +41,14 @@ const DisplayCards = ({ terms, loading }) => {
   
 
 const Return = () => {
-    return (
-        <div className='container'>
-            <p>
-                Back to <Link to="/">Home</Link>
-            </p>
-        </div>
-    );
-}
+  return (
+    <div className='container'>
+      <p>
+        Back to <Link to="/">Home</Link>
+      </p>
+    </div>
+  );
+};
 
 const Flashcards = () => {
     const [terms, setTerms] = useState([]);
@@ -69,12 +69,12 @@ const Flashcards = () => {
         getFlashcards(); // Call the function once when the component mounts
     }, []);
 
-    return (
-        <div>
-            <Return />
-            <DisplayCards terms={terms} loading={loading} />
-        </div>
-    );
+  return (
+    <div>
+      <Return />
+      <DisplayCards terms={terms} loading={loading} />
+    </div>
+  );
 }
 
 export default Flashcards;
