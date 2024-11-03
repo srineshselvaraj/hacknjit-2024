@@ -60,18 +60,16 @@ const SubmitButton = ({ handleClick }) => {
   );
 }
 
-const Feedback = ({ feedback, loading, isSubmitted }) => {
+const Feedback = ({ feedback, loading }) => {
   return (
     <div className="container">
       <div className="mt-4">
-        {loading ? isSubmitted (
-          <div className="container">
+        {loading ? (
             <div className="align-items-center">
-              <p>Loading feedback...</p>
+                <p>Loading feedback...</p>
             </div>
-          </div>
         ) : (
-          <p>{feedback}</p>
+            feedback && <p>{feedback}</p>  // Only show feedback if submitted
         )}
       </div>
     </div>
@@ -81,19 +79,17 @@ const Feedback = ({ feedback, loading, isSubmitted }) => {
 const Questions = ({ questions }) => {
   const [feedback, setFeedback] = useState('');
   const [loadFeedback, setLoadFeedback] = useState(false);
-  const [isSubmitted, setSubmitted] = useState(false);
   const handleSend = async (inputs) => {
     // Use sendResponse to POST and update feedback state
     setFeedback('');
     setLoadFeedback(true);  // Start loading
-    setSubmitted(true);
     await sendResponse(inputs, setFeedback, setLoadFeedback); // Send response and set feedback
   };
 
   return (
     <div>
       <Question questions={questions} handleSend={handleSend} />
-      <Feedback feedback={feedback} loading={loadFeedback} isSubmitted={isSubmitted}/>
+      <Feedback feedback={feedback} loading={loadFeedback}/>
     </div>
   );
 }
