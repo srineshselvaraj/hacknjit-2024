@@ -16,10 +16,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 def home():
     return render_template("index.html")
 
-@app.route('/get-data', methods=["POST"])
+@app.route('/get-data', methods=["GET", "POST"])
 def get_data():
-    usertext = request.json.get('usertext')
-    data = notes_handler(text=usertext, request="summary")
+    if request.method == "POST":
+        usertext = request.json.get('usertext')
+        data = notes_handler(text=usertext, request="summary")
+    if request.method == "GET":
+        data = notes_handler(request="summary")
     print("im here now")
     return jsonify(data)
 
