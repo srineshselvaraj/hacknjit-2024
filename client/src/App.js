@@ -41,8 +41,10 @@ const sendData = async(inputData, url) => {
     });
     const result = await response.json();
     console.log(result);
+    return result;
   } catch(error){
     console.error(error);
+    return null;
   }
 }
 
@@ -50,7 +52,7 @@ function UploadText(){
   const [input, setInput] = useState('');
   const handleSend = async (url) => {
     const data = { input };
-    await sendData(data, url);
+    return await sendData(data, url);
   };
 
   const handleUpload = async(event) => {
@@ -79,19 +81,28 @@ function UploadText(){
 
   const navigate = useNavigate();
 
-  const handleSummaryClick = async () => {
-    await handleSend("http://localhost:5000/get-data"); // Send data and then navigate
-    navigate("/summary");
+  const handleSummaryClick = async (event) => {
+    event.preventDefault(); // Prevent any default action
+    const result = await handleSend("http://localhost:5000/get-data");
+    if (result) { // Only navigate if result is successful
+      navigate("/summary");
+    }
   };
 
-  const handleQuestionsClick = async () => {
-    await handleSend("http://localhost:5000/questions"); // Send data and then navigate
-    navigate("/questions");
+  const handleQuestionsClick = async (event) => {
+    event.preventDefault(); // Prevent any default action
+    const result = await handleSend("http://localhost:5000/questions");
+    if (result) { // Only navigate if result is successful
+      navigate("/questions");
+    }
   };
 
-  const handleFlashcardsClick = async () => {
-    await handleSend("http://localhost:5000/flashcards"); // Send data and then navigate
-    navigate("/flashcards");
+  const handleFlashcardsClick = async (event) => {
+    event.preventDefault(); // Prevent any default action
+    const result = await handleSend("http://localhost:5000/flashcards");
+    if (result) { // Only navigate if result is successful
+      navigate("/flashcards");
+    }
   };
 
   return(
