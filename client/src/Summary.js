@@ -41,7 +41,7 @@ const Summary = () => {
                 }
                 const data = await response.json();
                 console.log("Fetched data:", data); 
-                setText(data);
+                setText(data.summary);
             } catch(error) {
                 console.error(error.message);
             } finally {
