@@ -105,12 +105,39 @@ function UploadText({ getQuestions }){
   );
 }
 
-function Question({questions, loading}) {
-  const [input, setInput] = useState('');
-  const handleSend = () => {
-    const data = { input };
-    sendData(data);
+const sendResponse = async(inputData) => {
+  try{
+    const response = await fetch("http://localhost:5000/feedback", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ usertext:inputData }),
+    });
+    const result = await response.json();
+    console.log(result);
+  } catch(error){
+    console.error(error);
+  }
+}
+
+
+function Question({questions, loading, getFeedback}) {
+  const [inputs, setInputs] = useState(Array(questions.length).fill(''));
+  const handleInputChange = (index, value) => {
+    const newInputs = [...inputs];
+    newInputs[index] = value;
+    setInputs(newInputs);
   };
+  const handleSend = () => {
+    const data = { inputs };
+    sendResponse(data);
+  };
+
+  const handleSubmit = () => {
+    handleSend();
+    getFeedback();
+  }
 
   return(
     <div className='container'>
@@ -128,14 +155,14 @@ function Question({questions, loading}) {
                 <p>{question}</p>
                 <textarea
                   id="inputText"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  value={inputs[index]}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
                   className="form-control"
                   rows="2"
                 ></textarea>
               </div>
             ))}
-            <SubmitButton handleClick={handleSend}/>
+            <SubmitButton handleClick={handleSubmit}/>
           </>
         )}
       </div>
@@ -153,9 +180,29 @@ const SubmitButton = ({ handleClick }) => {
   );
 }
 
+const Feedback = ({response, loading}) => {
+  return(
+    <div class="container">
+      <div class="mt-4">
+      {loading ? (
+          <div className="container">
+            <div className="align-items-center">
+              <p>Loading feedback...</p>
+            </div>
+          </div>
+        ) : (
+          <p>{response}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function Home(){
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [feedback, setFeedback] = useState('');
+  const [loadFeedback, setLoadFeedback] = useState(true);
 
   const getQuestions = async() => {
     try{
@@ -169,16 +216,28 @@ function Home(){
     }
   };
 
+  const getFeedback = async() => {
+    try{
+      const response = await fetch('http://localhost:5000/feedback');
+      const data = await response.json();
+      setFeedback(data);
+    } catch(error) {
+      console.error(error.message);
+    } finally {
+      setLoadFeedback(false);
+    }
+  };
+
   return(
     <div>
       <UploadText getQuestions={getQuestions} />
-      <Question questions={questions} loading={loading} />
+      <Question questions={questions} loading={loading} getFeedback={getFeedback}/>
+      <Feedback feedback={feedback} loading={loadFeedback} />
     </div>
   );
 }
 
 function App() {
-
   return (
     <Router>
       <div>
