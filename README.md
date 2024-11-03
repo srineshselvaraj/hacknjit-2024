@@ -1,6 +1,6 @@
 # **__HACKATHON STEAMPUNK PROJECT 2024 (Name WIP)__**
 
-Table of Contents
+Table of Contents:
 Project Overview
 Features
 Tech Stack

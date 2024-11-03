@@ -17,19 +17,24 @@ function Header(){
     <nav className="navbar navbar-expand-md navbar-light">
         <div className="container-fluid">
           <div id="header" className="d-flex justify-content-between align-items-center w-100 ms-3 me-3">
+            {/* Brand Name on the Left */}
             <Link className="navbar-brand display-1" to="/">
               COGnition
             </Link>
-            {username ? (
+
+            {/* Username and Logout Button on the Right */}
+            <div className="d-flex align-items-center">
+              {username ? (
                 <>
-                    <span>{username}</span>
-                    <button onClick={logout} className="linkButton">Logout</button>
+                  <span className="me-3">{username}</span> {/* Add margin to the right for spacing */}
+                  <button onClick={logout} className="btn linkButton">Logout</button>
                 </>
-            ) : (
-              <button id="loginButton" className="btn">
-                <Link className="linkButton" to="/login">Login/Register</Link>
-              </button>
-            )}
+              ) : (
+                <button id="loginButton" className="btn">
+                  <Link className="linkButton" to="/login">Login/Register</Link>
+                </button>
+              )}
+            </div>
           </div>
         </div>
     </nav>
