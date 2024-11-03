@@ -12,14 +12,14 @@ import Flashcards from './Flashcards';
 function Header(){
   const location = useLocation();
   return(
-    <nav className="navbar navbar-expand-md navbar-light bg-light">
+    <nav className="navbar navbar-expand-md navbar-light">
         <div className="container-fluid">
           <div id="header" className="d-flex justify-content-between align-items-center w-100 ms-3 me-3">
             <Link className="navbar-brand display-1" to="/">
               COGnition
             </Link>
             {location.pathname === '/' && (
-              <button id="loginButton" className="btn btn-warning">
+              <button id="loginButton" className="btn">
                 <Link className="linkButton" to="/login">Login</Link>
               </button>
             )}
@@ -110,7 +110,7 @@ function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
           <p className="insertText mb-0">Or upload an image/PDF:</p>
           <div>
             <input id='fileInput' type="file" accept='image/*,.pdf' ref={fileRef} onChange={handleUpload} />
-            <button onClick={handleClick} className="btn btn-primary ms-3">Import text with OCR</button>
+            <button onClick={handleClick} className="btn ms-3">Import text with OCR</button>
           </div>
         </div>
         <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="20"></textarea>
@@ -128,7 +128,7 @@ const SubmitButton = ({ handleClick, text }) => {
   return(
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-          <button type="button" className="btn btn-success" onClick={handleClick}>{text}</button>
+          <button type="button" className="btn" onClick={handleClick}>{text}</button>
         </div>
     </div>
   );
@@ -154,7 +154,7 @@ function AppRoutes() {
   };
 
   return (
-    <div>
+    <div id="background">
     <Header />
       <Routes>
           <Route path="/" element={<UploadText onSummaryUpdate={updateSummary} onQuestionsUpdate={updateQuestions} onFlashcardsUpdate={updateFlashcards}/>} />

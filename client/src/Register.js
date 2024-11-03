@@ -1,11 +1,12 @@
-// src/components/Register.js
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import "./App.css";
 
 const Register = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [email, setEmail] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
@@ -39,41 +40,57 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h2>Register</h2>
+        <div className="container">
+            <h2 className='insertText mt-4'>Register</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
+                <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Username:</label>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        className='form-input'
                     />
                 </div>
-                <div>
-                    <label>Password:</label>
+                <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Password:</label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className='form-input'
                     />
                 </div>
-                <div>
-                    <label>Confirm Password:</label>
+                <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Confirm Password:</label>
                     <input
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         required
+                        className='form-input'
                     />
                 </div>
-                <button type="submit">Register</button>
+                <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Email (optional): </label>
+                    <input 
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="form-input"
+                    />
+                </div>
+                <div className="d-flex justify-content-center align-items-center mt-3">
+                    <button className="btn btn-secondary" type="submit">Register</button>
+                </div>
             </form>
-            <p>
-                Already have an account? <Link to="/login">Login here</Link>
-            </p>
+            <div className="d-flex justify-content-center align-items-center mt-3">
+                <p>
+                    Already have an account? <Link className="loginlink" to="/login">Login here</Link>
+                </p>
+            </div>
         </div>
     );
 };

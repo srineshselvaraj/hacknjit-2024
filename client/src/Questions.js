@@ -77,16 +77,6 @@ const Feedback = ({ feedback, loading }) => {
   );
 }
 
-const Return = () => {
-  return (
-    <div className='container'>
-      <p>
-        Back to <Link to="/">Home</Link>
-      </p>
-    </div>
-  );
-}
-
 const Questions = ({ questions }) => {
   const [feedback, setFeedback] = useState('');
   const [loadFeedback, setLoadFeedback] = useState(true);
@@ -99,7 +89,6 @@ const Questions = ({ questions }) => {
 
   return (
     <div>
-      <Return />
       <Question questions={questions} handleSend={handleSend} />
       <Feedback feedback={feedback} loading={loadFeedback} />
     </div>

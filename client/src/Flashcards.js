@@ -43,17 +43,6 @@ const DisplayCards = ({ terms }) => {
       </div>
     );
   };
-  
-
-const Return = () => {
-  return (
-    <div className='container'>
-      <p>
-        Back to <Link to="/">Home</Link>
-      </p>
-    </div>
-  );
-};
 
 const Flashcards = ({terms}) => {
     /*const [terms, setTerms] = useState([]);
@@ -76,7 +65,6 @@ const Flashcards = ({terms}) => {
 
   return (
     <div>
-      <Return />
       <DisplayCards terms={terms} />
     </div>
   );

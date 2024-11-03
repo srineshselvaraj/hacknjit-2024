@@ -58,12 +58,14 @@ const Login = () => {
                 </div>
 
                 <div className="d-flex justify-content-center align-items-center mt-3">
-                    <button className="btn btn-secondary" type="submit">Login</button>
+                    <Link to="/">
+                        <button className="btn btn-secondary" type="submit">Login</button>
+                    </Link>
                 </div>
             </form>
             <div className="d-flex justify-content-center align-items-center mt-3">
                 <p>
-                    Don't have an account? <Link to="/register">Register here</Link>
+                    Don't have an account? <Link className="loginlink" to="/register">Register here</Link>
                 </p>
             </div>
         </div>
