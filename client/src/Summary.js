@@ -41,8 +41,8 @@ const Summary = ({text}) => {
                     throw new Error(`HTTP error! Status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log("Fetched data:", data); 
-                setText(data);
+                console.log("Fetched data:", data
+                setText(data.summary);
             } catch(error) {
                 console.error(error.message);
             } finally {

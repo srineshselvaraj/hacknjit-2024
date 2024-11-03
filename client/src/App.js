@@ -78,7 +78,6 @@ function UploadText({onSummaryUpdate, onQuestionsUpdate, onFlashcardsUpdate}){
   const handleClick = () => {
     fileRef.current.click();
   }
-
   const handleSummaryClick = async (event) => {
     event.preventDefault(); // Prevent any default action
     const result = await handleSend("http://localhost:5000/get-data");
