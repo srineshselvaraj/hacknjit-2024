@@ -57,6 +57,12 @@ def uploads():
     else:
         return jsonify({'error': 'Unsupported file type'}), 400
 
+@app.route('/flashcards', methods=["POST"])
+def flashcards():
+    usertext = request.json.get('usertext')
+    flashcards = notes_handler(text=usertext, request="flashcards")
+    return jsonify(flashcards)
+
 """@app.route('/login', methods=["POST"])
 def login():
     username = request.json.get("username")

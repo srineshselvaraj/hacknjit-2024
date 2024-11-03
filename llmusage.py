@@ -25,4 +25,14 @@ def notes_handler(text = None, request="summary"):
         cleaned_questions = [match.strip() for match in matches]
         
         return cleaned_questions
-
+    elif request == "flashcards":
+        notes_text = last_notes_text
+        response = conversation.prompt(f"Given the following lecture notes, identify the most important definitions and create a list of flashcards formatted as a Python dictionary. Each dictionary entry should have the term as the key and the definition as the value. Here are the notes: {notes_text}", max_tokens = 8192)
+        print(response.text())
+        matches = re.findall(r'```(.*?)```', response.text(), re.DOTALL)
+        return matches[0]
+    
+    
+    
+notes_handler("I was reading about different types of ecosystems. There's this thing called a rainforest, which is super humid and has a lot of trees. Deserts are the opposite; they hardly get any rain and are very dry. I also learned that a food chain shows how energy flows from one organism to another. Biodiversity is important because it means having a variety of life in an ecosystem. Conservation is about protecting our environment and species. And then there’s this idea of an invasive species, which is not native and can harm local ecosystems. Oh, and ecosystems can be terrestrial or aquatic, which is interesting.", "flashcards")
+        
