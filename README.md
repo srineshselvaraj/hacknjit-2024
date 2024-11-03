@@ -1,4 +1,4 @@
-# **COGnition.ai **
+# __COGnition.ai__
 
 # Project Overview
 Description
