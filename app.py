@@ -4,6 +4,8 @@ from notereader import read_image_file, extract_text_from_pdf
 from flask_cors import CORS
 import os
 import psycopg2
+from psycopg2.extras import Json
+
 
 app = Flask(__name__)
 
@@ -152,10 +154,20 @@ def login():
         password = request.json.get('password')
         
         if validated_user(connection, username, password):
-            return redirect(url_for("home"))
-        else:
-            message = "Invalid username or password. Please try again."
-    return message
+            return jsonify({
+            'success': True,
+            'message': 'Login successful!',
+            'user': {
+                'username': username,
+            }
+            }), 200 
+        # else:
+        #     message = "Invalid username or password. Please try again."
+    return jsonify({
+        'success': False,
+        'message': 'Invalid username or password.'
+    }), 401  # HTTP 401 Unauthorized for login failure
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():

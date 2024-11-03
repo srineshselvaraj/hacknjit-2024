@@ -20,12 +20,12 @@ const Login = () => {
             });
 
             const data = await response.json();
-
-            if (response.ok) { // Check if the response is successful
-                console.log(data); // Handle success response (e.g., show a message)
+            
+            if (response.ok && data.success) { // Check if the response is successful
+                console.log(data.message); // Handle success response (e.g., show a message)
                 navigate('/'); // Redirect to home page after successful login
             } else {
-                console.error('Login failed:', data); // Handle login failure
+                console.error('Login failed:', data.message); // Handle login failure
             }
         } catch (error) {
             console.error('Error:', error); // Handle error response
