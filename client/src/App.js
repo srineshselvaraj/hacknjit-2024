@@ -1,6 +1,10 @@
 //import logo from './logo.svg';
 import './App.css';
 import { useState, useRef, useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import Login from './Login';
+import Register from './Register';
 
 function Header(){
   return(
@@ -8,7 +12,9 @@ function Header(){
         <div className="container-fluid">
           <div id="header" className="d-flex justify-content-between align-items-center w-100 ms-3 me-3">
             <a className="navbar-brand display-1" href="#">HackNJIT 2024</a>
-            <button id="loginButton" className="btn btn-warning">Login</button>
+            <button id="loginButton" className="btn btn-warning">
+              <Link to="/login">Login</Link>
+            </button>
           </div>
         </div>
     </nav>
@@ -50,7 +56,7 @@ function UploadText({ getQuestions }){
   const [input, setInput] = useState('');
   const handleSend = async () => {
     const data = { input };
-    await sendData(data);
+    sendData(data);
   };
 
   const handleSubmit = async () => {
@@ -147,7 +153,7 @@ const SubmitButton = ({ handleClick }) => {
   );
 }
 
-function App() {
+function Home(){
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -163,12 +169,27 @@ function App() {
     }
   };
 
-  return (
+  return(
     <div>
-      <Header />
-      <UploadText getQuestions={getQuestions}/>
-      <Question questions={questions} loading={loading}/>
+      <UploadText getQuestions={getQuestions} />
+      <Question questions={questions} loading={loading} />
     </div>
+  );
+}
+
+function App() {
+
+  return (
+    <Router>
+      <div>
+      <Header />
+        <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} /> 
+            <Route path="/register" element={<Register />} /> 
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

@@ -20,7 +20,7 @@ def get_data():
 def questions():
     usertext = request.json.get('usertext')
     questions = notes_handler(text=usertext, request="questions")
-    return jsonify({'questions': questions})
+    return jsonify(questions)
 
 if __name__ == '__main__':
     app.run(debug=True)
