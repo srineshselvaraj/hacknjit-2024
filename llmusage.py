@@ -33,11 +33,10 @@ def notes_handler(text = None, request="summary"):
         return cleaned_questions"""
     elif request == "flashcards":
         notes_text = last_notes_text
-        return "wario kart"
-        """print("hi")
-        response = conversation.prompt(f"Given the following lecture notes, identify the most important definitions and create a list of flashcards formatted as a Python dictionary. Each dictionary entry should have the term as the key and the definition as the value. Here are the notes: {notes_text}", max_tokens = 8192)
+        print("hi")
+        response = conversation.prompt(f"Given the following lecture notes, identify the most important definitions and create a list of flashcards formatted as a Python dictionary. COME UP WITH UNIQUE DEFINITIONS THAT AREN'T COPY PASTED FROM THE TEXT (generate them)! Each dictionary entry should have the term as the key and the definition as the value. Here are the notes: {notes_text}", max_tokens = 8192)
         matches = re.findall(r'```(.*?)```', response.text(), re.DOTALL)
         print(matches[0])
-        return matches[0]"""
+        return matches[0]
     
         

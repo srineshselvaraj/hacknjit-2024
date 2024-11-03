@@ -141,7 +141,7 @@ function AppRoutes() {
   const navigate = useNavigate();
 
   const updateSummary = (data) => {
-    setSummary(data);
+    setSummary(data.summary);
     navigate("/summary");
   };
   const updateQuestions = (data) => {
