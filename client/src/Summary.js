@@ -30,13 +30,17 @@ const Return = () => {
 }
 
 const Summary = () => {
-    const [text, setText] = useState([]);
+    const [text, setText] = useState('');
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const getSummary = async() => {
             try{
                 const response = await fetch('http://localhost:5000/get-data');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
                 const data = await response.json();
+                console.log("Fetched data:", data); 
                 setText(data);
             } catch(error) {
                 console.error(error.message);
