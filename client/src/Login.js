@@ -1,12 +1,14 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useUser } from './UserContext';
 import './App.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate(); // Initialize the useNavigate hook
+    const { setUsername: setGlobalUsername } = useUser();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -23,6 +25,8 @@ const Login = () => {
 
             if (response.ok) { // Check if the response is successful
                 console.log(data); // Handle success response (e.g., show a message)
+                setGlobalUsername(username);
+                localStorage.setItem('token', data.token);
                 navigate('/'); // Redirect to home page after successful login
             } else {
                 console.error('Login failed:', data); // Handle login failure
@@ -58,9 +62,7 @@ const Login = () => {
                 </div>
 
                 <div className="d-flex justify-content-center align-items-center mt-3">
-                    <Link to="/">
-                        <button className="btn btn-secondary" type="submit">Login</button>
-                    </Link>
+                    <button className="btn" type="submit">Login</button>
                 </div>
             </form>
             <div className="d-flex justify-content-center align-items-center mt-3">

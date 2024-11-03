@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const DisplaySummary = ({summary}) => {
     return(
         <div className="container">
-            <div className="mt-4">
+            <div className="mt-4 p-2">
                 <p>{summary}</p>
             </div>
         </div>
