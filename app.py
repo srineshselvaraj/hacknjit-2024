@@ -67,7 +67,6 @@ def uploads():
 
 @app.route('/flashcards', methods=["GET", "POST"])
 def flashcards():
-    print("hi")
     if request.method == "POST":
         usertext = request.json.get('usertext')
         flashcards = notes_handler(text=usertext, request="flashcards")
