@@ -1,4 +1,4 @@
-# COGnition.ai
+# COGnition
 
 ## Project Overview
 ### Description
@@ -36,10 +36,17 @@ We wanted to do something in the realm of AI and decided that creating a page wh
 
 1. Clone the Repository
 ```
-git clone https://github.com/your-username/project-name.git
-cd project-name
+git clone https://github.com/srineshselvaraj/hacknjit-2024.git
+cd hacknjit-2024
 ```
 2. Install Dependencies
+
+Ensure you have Conda installed
+```
+conda env create -f environment.yml
+conda activate cognition
+
+```
 
 Front-End
 
@@ -62,7 +69,7 @@ cd backend
 npm start
 
 #In another terminal, run the front-end
-cd frontend
+cd cllient
 npm start
 ```
 
@@ -71,10 +78,10 @@ Describe how to use the application, including any important details such as use
 
 ## Contributors
 
-Anirudh Krishna Ramkumar – GitHub Profile
+Anirudh Krishna Ramkumar
 
-Srinesh Selvaraj – GitHub Profile
+Srinesh Selvaraj 
 
-John Argonza – GitHub Profile
+John Argonza 
 
 
