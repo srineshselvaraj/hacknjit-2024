@@ -60,6 +60,7 @@ def notes_handler(text = None, request="summary"):
         cached_note_item["Summary"] = response.text()
         result = response.text()
     elif request == "questions":
+        
         notes_text = last_notes_text
         response = conversation.prompt(f"Given the following notes, please generate 3 unique questions to test a reader’s comprehension. The questions should focus on deeper understanding rather than surface details, encouraging the reader to think critically about the main ideas, key concepts, and implications. Provide questions that vary in type (for example, one open-ended question, one application-based question, and one that asks the reader to analyze or interpret a part of the text). The questions should be clear, specific, and relevant to the main points. \n The notes mentioned above: {notes_text}", max_tokens = 8192)
         
@@ -73,13 +74,17 @@ def notes_handler(text = None, request="summary"):
         result = cleaned_questions
     elif request == "flashcards":
         notes_text = last_notes_text
-        print("hi")
         response = conversation.prompt(f"Given the following lecture notes, identify the most important definitions and create a list of flashcards formatted as a Python dictionary. COME UP WITH UNIQUE DEFINITIONS THAT AREN'T COPY PASTED FROM THE TEXT (generate them)! Each dictionary entry should have the term as the key and the definition as the value. Here are the notes: {notes_text}", max_tokens = 8192)
         matches = re.findall(r'= (.*?)```', response.text(), re.DOTALL)
         returnable = json.loads(matches[0])
         
         cached_note_item["Flashcards"] = returnable
         result = returnable
+    elif request == "feedback":
+        answers = text
+        response = conversation.prompt(f"Given the questions you asked, provide feedback for each answer listed below, letting the user know whether they were right or wrong and where their logic can improve - structure your response as a boolean list in python with a value of true or false for each question depending on whether or not the user was right followed by feedback for each question. Here are the user's answers: {answers}")
+        
+        return response.text()
         
     usercache.append(cached_note_item)
     with open(CACHE_FILE_PATH, 'w') as file:

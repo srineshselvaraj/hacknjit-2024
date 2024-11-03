@@ -41,7 +41,7 @@ def get_data():
     if request.method == "GET":
         data = notes_handler(request="summary")
     print("im here now")
-    return jsonify(data)
+    return jsonify({"summary": data})
 
 @app.route('/questions', methods=["GET", "POST"])
 def questions():
@@ -80,7 +80,6 @@ def uploads():
 
 @app.route('/flashcards', methods=["GET", "POST"])
 def flashcards():
-    print("hi")
     if request.method == "POST":
         usertext = request.json.get('usertext')
         flashcards = notes_handler(text=usertext, request="flashcards")
@@ -88,7 +87,18 @@ def flashcards():
         flashcards = notes_handler(request="flashcards")
     return jsonify(flashcards)
 
+<<<<<<< HEAD
 def validated_user(connection, username, input_password):
+=======
+@app.route('/feedback', methods=["POST"])
+def feedback():
+    answers = request.json.get('answers')
+    feedback = notes_handler(text=answers, request="summary")
+    return jsonify(feedback)
+
+
+"""def validated_user(connection, username, input_password):
+>>>>>>> 9a347c4412721a2ce2ffad662efdbc43ce62280f
     try:
         cursor = connection.cursor()
         select_query = "SELECT * FROM users WHERE username = %s;"

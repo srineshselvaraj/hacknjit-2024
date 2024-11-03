@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import './App.css';
 
 const sendResponse = async (inputData, setFeedback, setLoadFeedback) => {
   try {
@@ -8,7 +9,7 @@ const sendResponse = async (inputData, setFeedback, setLoadFeedback) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ usertext: inputData }),
+      body: JSON.stringify({ answers: inputData }),
     });
     const result = await response.json();
     console.log(result);
@@ -53,7 +54,7 @@ const SubmitButton = ({ handleClick }) => {
   return (
     <div className='container'>
       <div className="d-flex justify-content-center align-items-center mt-3">
-        <button type="submit" className="btn btn-success" onClick={handleClick}>Submit</button>
+        <button type="submit" className="btn" onClick={handleClick}>Submit</button>
       </div>
     </div>
   );
@@ -64,13 +65,11 @@ const Feedback = ({ feedback, loading }) => {
     <div className="container">
       <div className="mt-4">
         {loading ? (
-          <div className="container">
             <div className="align-items-center">
-              <p>Loading feedback...</p>
+                <p>Loading feedback...</p>
             </div>
-          </div>
         ) : (
-          <p>{feedback}</p>
+            feedback && <p>{feedback}</p>  // Only show feedback if submitted
         )}
       </div>
     </div>
@@ -79,10 +78,10 @@ const Feedback = ({ feedback, loading }) => {
 
 const Questions = ({ questions }) => {
   const [feedback, setFeedback] = useState('');
-  const [loadFeedback, setLoadFeedback] = useState(true);
-
+  const [loadFeedback, setLoadFeedback] = useState(false);
   const handleSend = async (inputs) => {
     // Use sendResponse to POST and update feedback state
+    setFeedback('');
     setLoadFeedback(true);  // Start loading
     await sendResponse(inputs, setFeedback, setLoadFeedback); // Send response and set feedback
   };
@@ -90,7 +89,7 @@ const Questions = ({ questions }) => {
   return (
     <div>
       <Question questions={questions} handleSend={handleSend} />
-      <Feedback feedback={feedback} loading={loadFeedback} />
+      <Feedback feedback={feedback} loading={loadFeedback}/>
     </div>
   );
 }
