@@ -27,8 +27,6 @@ Back-End
 - PIL
 - PyPDF2
 Database
-- PostgreSQL
-
 
 # Installation
 
