@@ -2,7 +2,7 @@
 import './App.css';
 import { useState, useRef, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import Summary from './Summary';
@@ -10,14 +10,19 @@ import Questions from './Questions';
 import Flashcards from './Flashcards';
 
 function Header(){
+  const location = useLocation();
   return(
     <nav className="navbar navbar-expand-md navbar-light bg-light">
         <div className="container-fluid">
           <div id="header" className="d-flex justify-content-between align-items-center w-100 ms-3 me-3">
-            <a className="navbar-brand display-1" href="#">HackNJIT 2024</a>
-            <button id="loginButton" className="btn btn-warning">
-              <Link to="/login">Login</Link>
-            </button>
+            <Link className="navbar-brand display-1" to="/">
+              COGnition
+            </Link>
+            {location.pathname === '/' && (
+              <button id="loginButton" className="btn btn-warning">
+                <Link className="linkButton" to="/login">Login</Link>
+              </button>
+            )}
           </div>
         </div>
     </nav>
@@ -41,7 +46,7 @@ const sendData = async(inputData, url) => {
   }
 }
 
-function UploadText({ getQuestions }){
+function UploadText(){
   const [input, setInput] = useState('');
   const handleSend = async (url) => {
     const data = { input };
@@ -82,16 +87,18 @@ function UploadText({ getQuestions }){
             <button onClick={handleClick} className="btn btn-primary ms-3">Import text with OCR</button>
           </div>
         </div>
-        <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="5"></textarea>
-        <Link to="/summary">
-          <SubmitButton handleClick={handleSend} url="http://localhost:5000/get-data" text="Summary"/>
-        </Link>
-        <Link to="/questions">
-          <SubmitButton handleClick={handleSend} url="http://localhost:5000/questions" text="Quiz"/>
-        </Link>
-        <Link to="/flashcards">
-          <SubmitButton handleClick={handleSend} url="http://localhost:5000/flashcards" text="Flashcards"/>
-        </Link>
+        <textarea id="inputText" value={input} onChange={(e) => setInput(e.target.value)} className="form-control" rows="20"></textarea>
+        <div className="d-flex justify-content-center">
+          <Link className="linkButton" to="/summary">
+            <SubmitButton handleClick={() => handleSend("http://localhost:5000/get-data")} text="Summary"/>
+          </Link>
+          <Link className="linkButton" to="/questions">
+            <SubmitButton handleClick={() => handleSend("http://localhost:5000/questions")} text="Quiz"/>
+          </Link>
+          <Link className="linkButton" to="/flashcards">
+            <SubmitButton handleClick={() => handleSend("http://localhost:5000/flashcards")} text="Flashcards"/>
+          </Link>
+        </div>
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ const DisplayCards = ({ terms, loading }) => {
           <p>Loading flashcards...</p>
         ) : (
           terms.map(flashcard => (
-            <Card key={flashcard.id} question={flashcard.question} answer={flashcard.answer} />
+            <Card question={flashcard.question} answer={flashcard.answer} />
           ))
         )}
       </div>
