@@ -1,25 +1,22 @@
 import llm, re
-from notereader import read_image_file
 
-summarized = False
+last_notes_text = ""
 
-def notes_handler(text = None, file=None, request="summary"):
-    global summarized
+def notes_handler(text = None, request="summary"):
+    global last_notes_text
     model = llm.get_model("Meta-Llama-3-8B-Instruct")
     conversation = model.conversation()
-    if file:
-        notes_text = read_image_file(file)
-    elif text:
-        notes_text = text        
+    if text:
+        notes_text = text
+        last_notes_text = notes_text        
     if request == "summary": 
-        response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 1000)
-        summarized = True
+        response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
+        """for chunk in response.text():
+            print(chunk, end="")"""
         return response.text()
     elif request == "questions":
-        if summarized == True:
-            response = conversation.prompt(f"Come up with three specific questions that will help me test my understanding of the previously summarized notes in this exact format: '1. (question) 2. (question) 3. (question)' and do not add any other words to your response. ", max_tokens = 2000)
-        else:
-            response = conversation.prompt(f"Come up with three specific questions that will help me test my understanding of the notes below in this exact format: '1. (question) 2. (question) 3. (question)' and do not add any other words to your response. \n The notes mentioned above: {notes_text}", max_tokens = 2000)
+        notes_text = last_notes_text
+        response = conversation.prompt(f"Given the following notes, please generate 3 unique questions to test a reader’s comprehension. The questions should focus on deeper understanding rather than surface details, encouraging the reader to think critically about the main ideas, key concepts, and implications. Provide questions that vary in type (for example, one open-ended question, one application-based question, and one that asks the reader to analyze or interpret a part of the text). The questions should be clear, specific, and relevant to the main points. \n The notes mentioned above: {notes_text}", max_tokens = 8192)
         
         pattern = r'\d+\.\s*([^?]*\?)'
 
