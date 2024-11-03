@@ -6,8 +6,10 @@ import os
 import psycopg2
 from psycopg2.extras import Json
 
-
 app = Flask(__name__)
+
+global logged_user_id
+logged_user_id=0
 
 try:
     connection = psycopg2.connect(
@@ -37,19 +39,18 @@ def home():
 def get_data():
     if request.method == "POST":
         usertext = request.json.get('usertext')
-        data = notes_handler(text=usertext, request="summary")
+        data = notes_handler(text=usertext, request="summary", id=logged_user_id)
     if request.method == "GET":
-        data = notes_handler(request="summary")
-    print("im here now")
-    return jsonify(data)
+        data = notes_handler(request="summary", id=logged_user_id)
+    return jsonify({"summary":data})
 
 @app.route('/questions', methods=["GET", "POST"])
 def questions():
     if request.method == "POST":
         usertext = request.json.get('usertext')
-        questions = notes_handler(text=usertext, request="questions")
+        questions = notes_handler(text=usertext, request="questions", id=logged_user_id)
     elif request.method == "GET":
-        questions = notes_handler(request="questions")
+        questions = notes_handler(request="questions", id=logged_user_id)
     return jsonify(questions)
 
 @app.route('/upload', methods=["POST"])
@@ -83,9 +84,9 @@ def flashcards():
     print("hi")
     if request.method == "POST":
         usertext = request.json.get('usertext')
-        flashcards = notes_handler(text=usertext, request="flashcards")
+        flashcards = notes_handler(text=usertext, request="flashcards", id=logged_user_id)
     elif request.method == "GET":
-        flashcards = notes_handler(request="flashcards")
+        flashcards = notes_handler(request="flashcards", id=logged_user_id)
     return jsonify(flashcards)
 
 def validated_user(connection, username, input_password):
@@ -146,6 +147,21 @@ def insert_user(connection, username, password, email):
     finally:
         cursor.close()
 
+def insert_cache(connection, user_id):
+    try:
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO user_cache (user_id)
+        VALUES (%s)
+        RETURNING user_id;
+        """
+        cursor.execute(insert_query, (user_id))
+    except Exception as error:
+        print("Error inserting cache:", error)
+        connection.rollback()  # Rollback in case of error
+    finally:
+        cursor.close()
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     message = ""
@@ -154,6 +170,16 @@ def login():
         password = request.json.get('password')
         
         if validated_user(connection, username, password):
+            try:
+                cursor = connection.cursor()
+                select_query = "SELECT user_id FROM users WHERE username = %s;"
+                cursor.execute(select_query, (username,))
+                user = cursor.fetchone() 
+            except Exception as error:
+                print("Error retrieving users:", error)
+            finally:
+                cursor.close()   
+            #logged_user_id = user[0] 
             return jsonify({
             'success': True,
             'message': 'Login successful!',
@@ -175,12 +201,12 @@ def register():
     if request.method == "POST":
         username = request.json.get('username')
         password = request.json.get('password')
-        confirmPassword = request.json.get('confirmPassword')
         email = request.json.get("email")  # Retrieve email (optional)
         if user_exists(connection, username):
             message = "Username already taken. Please choose another."
         else:
             insert_user(connection, username, password, email)
+            insert_cache(user_id)
             return redirect(url_for("login"))
         print(message)
     return message

@@ -35,7 +35,22 @@ finally:
     if connection:
         print("I connected!")
 
-def notes_handler(text = None, request="summary"):
+def insert_cache(connection, user_id, cache_data):
+    try:
+        cursor = connection.cursor()
+        insert_query = """
+        INSERT INTO user_cache (user_id, cache_data)
+        VALUES (%s, %s)
+        RETURNING user_id;
+        """
+        cursor.execute(insert_query, (user_id, cache_data))
+    except Exception as error:
+        print("Error inserting cache:", error)
+        connection.rollback()  # Rollback in case of error
+    finally:
+        cursor.close()
+
+def notes_handler(text = None, request="summary", id=0):
     global last_notes_text
     global notes_text
     global cached_note_item
@@ -49,16 +64,18 @@ def notes_handler(text = None, request="summary"):
                 return cached_note_item["Questions"]
             elif request == "flashcards":
                 return cached_note_item["Flashcards"]
-        
+    print("jjjjj")
     if text:
         notes_text = text
         last_notes_text = notes_text  
-        cached_note_item["Original Notes"] = notes_text      
+        cached_note_item["Original Notes"] = notes_text  
     if request == "summary": 
+        print("hi")
         notes_text = last_notes_text
-        response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
-        cached_note_item["Summary"] = response.text()
-        result = response.text()
+        return "madeit"
+        # response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 8192)
+        # cached_note_item["Summary"] = response.text()
+        # result = response.text()
     elif request == "questions":
         notes_text = last_notes_text
         response = conversation.prompt(f"Given the following notes, please generate 3 unique questions to test a reader’s comprehension. The questions should focus on deeper understanding rather than surface details, encouraging the reader to think critically about the main ideas, key concepts, and implications. Provide questions that vary in type (for example, one open-ended question, one application-based question, and one that asks the reader to analyze or interpret a part of the text). The questions should be clear, specific, and relevant to the main points. \n The notes mentioned above: {notes_text}", max_tokens = 8192)
@@ -84,7 +101,7 @@ def notes_handler(text = None, request="summary"):
     usercache.append(cached_note_item)
     with open(CACHE_FILE_PATH, 'w') as file:
         json.dump(usercache, file)
-
+    insert_cache(id, usercache)
 
     return result
 
