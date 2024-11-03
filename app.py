@@ -35,6 +35,8 @@ def questions():
         questions = notes_handler(request="questions")
     return jsonify(questions)
 
+
+"""
 @app.route('/upload', methods=["POST"])
 def uploads():
     if 'file' not in request.files:
@@ -60,6 +62,8 @@ def uploads():
 
     else:
         return jsonify({'error': 'Unsupported file type'}), 400
+"""
+
 
 @app.route('/flashcards', methods=["GET", "POST"])
 def flashcards():
