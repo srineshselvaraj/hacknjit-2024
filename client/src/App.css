@@ -9,6 +9,30 @@
 #fileInput{
   display: none;
 }
+
+.linkButton{
+  text-decoration: none;
+  color: white;
+}
+
+.form-group {
+  width: 100%;
+  max-width: 400px; /* Set max width for inputs */
+  margin: 0 auto; /* Center align the form group */
+}
+
+.form-label {
+  min-width: 80px; /* Ensures labels have consistent width */
+  text-align: right;
+}
+
+.form-input {
+  flex: 1; /* Expands input to take available space */
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
 /*.App {
   text-align: center;
 }

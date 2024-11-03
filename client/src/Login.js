@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import './App.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -32,32 +33,39 @@ const Login = () => {
     };
 
     return (
-        <div>
-            <h2>Login</h2>
+        <div className='container'>
+            <h2 className="insertText mt-4">Login</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
+                <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Username: </label>
                     <input
                         type="text"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required
+                        className="form-input"
                     />
-                </div>
-                <div>
-                    <label>Password:</label>
+                    </div>
+                    <div className="form-group d-flex justify-content-center align-items-center mt-3">
+                    <label className="form-label me-2">Password: </label>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        className="form-input"
                     />
                 </div>
-                <button type="submit">Login</button>
+
+                <div className="d-flex justify-content-center align-items-center mt-3">
+                    <button className="btn btn-secondary" type="submit">Login</button>
+                </div>
             </form>
-            <p>
-                Don't have an account? <Link to="/register">Register here</Link>
-            </p>
+            <div className="d-flex justify-content-center align-items-center mt-3">
+                <p>
+                    Don't have an account? <Link to="/register">Register here</Link>
+                </p>
+            </div>
         </div>
     );
 };
