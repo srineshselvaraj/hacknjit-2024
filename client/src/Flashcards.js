@@ -26,6 +26,7 @@ const Card = ({ term, definition }) => {
 };
 
 const DisplayCards = ({ terms }) => {
+    console.log(terms);
     return (
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {Object.entries(terms).map(([term, definition]) => (
