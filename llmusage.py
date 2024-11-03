@@ -1,15 +1,12 @@
 import llm, re
-from notereader import read_image_file
 
 summarized = False
 
-def notes_handler(text = None, file=None, request="summary"):
+def notes_handler(text = None, request="summary"):
     global summarized
     model = llm.get_model("Meta-Llama-3-8B-Instruct")
     conversation = model.conversation()
-    if file:
-        notes_text = read_image_file(file)
-    elif text:
+    if text:
         notes_text = text        
     if request == "summary": 
         response = conversation.prompt(f"Summarize {notes_text}", max_tokens = 1000)
