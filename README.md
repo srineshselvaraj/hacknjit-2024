@@ -77,6 +77,4 @@ Srinesh Selvaraj – GitHub Profile
 
 John Argonza – GitHub Profile
 
-# License
-
 
