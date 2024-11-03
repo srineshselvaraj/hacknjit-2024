@@ -1,4 +1,5 @@
 import llm, re, json
+import psycopg2
 
 last_notes_text = ""
 notes_text = ""
@@ -11,12 +12,28 @@ try:
 except json.decoder.JSONDecodeError:
     usercache = []
 
+global cached_note_item
 cached_note_item = {
     "Original Notes":  "",
     "Summary": "",
     "Questions": [],
     "Flashcards": {}
 }
+
+try:
+    connection = psycopg2.connect(
+        database="cognition", 
+        user="postgres", 
+        password="ididntthinkofone", 
+        host="localhost", 
+        port="5432"
+    )
+    print("Connection to PostgreSQL was successful!")
+except Exception as e:
+    print(f"Error: {e}")
+finally:
+    if connection:
+        print("I connected!")
 
 def notes_handler(text = None, request="summary"):
     global last_notes_text
@@ -65,6 +82,7 @@ def notes_handler(text = None, request="summary"):
     usercache.append(cached_note_item)
     with open(CACHE_FILE_PATH, 'w') as file:
         json.dump(usercache, file)
+
 
     return result
 
